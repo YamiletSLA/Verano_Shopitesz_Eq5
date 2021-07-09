@@ -26,7 +26,7 @@
         <entry file="file://$PROJECT_DIR$/templates/usuarios/login.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
-              <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+              <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -44,9 +44,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="775" />
-    <option name="width" value="593" />
-    <option name="height" value="744" />
+    <option name="x" value="498" />
+    <option name="y" value="5" />
+    <option name="width" value="870" />
+    <option name="height" value="739" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -65,6 +66,12 @@
               <item name="shopitesz" type="b2602c69:ProjectViewProjectNode" />
               <item name="shopitesz" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shopitesz" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shopitesz" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="productos" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="shopitesz" type="b2602c69:ProjectViewProjectNode" />
@@ -137,15 +144,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="775" y="0" width="593" height="744" extended-state="0" />
+    <frame x="498" y="0" width="870" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25703564" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2345679" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3289689" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -175,7 +182,7 @@
     <entry file="file://$PROJECT_DIR$/templates/usuarios/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
         </state>
       </provider>
     </entry>
