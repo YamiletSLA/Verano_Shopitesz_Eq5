@@ -6,6 +6,11 @@ Bootstrap(app)
 @app.route("/")
 def inicio():
     return render_template('principal.html')
+
+@app.route("/prueba")
+def prueba():
+    return render_template('principalPrueba.html')
+
 @app.route('/validarSesion')
 def validarSesion():
     return render_template('usuarios/login.html')
@@ -34,6 +39,13 @@ def video():
 def pedidos():
     return render_template("pedidos/verpedido.html")
 
+@app.route("/pagProducto")
+def producto():
+    return render_template("productos/producto.html")
+
+@app.route("/carrito")
+def carrito():
+    return render_template("carrito/carritoCompras.html")
 
 if __name__=='__main__':
     app.run(debug=True)

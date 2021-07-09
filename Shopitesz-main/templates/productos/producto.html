@@ -1,0 +1,18 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+{{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido%}
+
+        <div class="container" >
+            <h1>Nombre del producto</h1>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Vv2C4NNOXs8p5DuoQ_Hx2Olz0E8E1NR4cA&usqp=CAU" class="img-rounded">
+            <b><h2>Caracteristicas:</h2></b>
+            <h3>Procesador: Intel I5</h3>
+            <h3>RAM: 16GB</h3>
+            <button type="button" class="btn btn-primary">Comprar</button>
+            <button type="button" class="btn btn-info">Agregar al carrito</button>
+        </div>
+
+{% endblock%}
