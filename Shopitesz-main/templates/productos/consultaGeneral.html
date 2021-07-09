@@ -1,0 +1,30 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+    <h1>LISTADO DE PRODUCTOS</h1>
+    <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <th>NOMBRE</th>
+            <th>DESCRIPCION</th>
+            <th>PRECIO</th>
+            <th>STOCK</th>
+        </thead>
+        <tr>
+            <td>Laptop DELL</td>
+            <td>Procesador:i5, 256GB SHD,16 GB en RAM</td>
+            <td>$18,000</td>
+            <td>5 unidades</td>
+        </tr>
+        <tr>
+            <td>Laptop HP</td>
+            <td>Procesador:i5, 256GB SHD,16 GB en RAM</td>
+            <td>$18,000</td>
+            <td>5 unidades</td>
+        </tr>
+    </table>
+    </div>
+{% endblock %}
