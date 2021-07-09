@@ -1,13 +1,16 @@
 {% extends 'comunes/base.html' %}
 {% block navbar %}
     {{super()}}
+
     {% include 'comunes/menu.html' %}
+
 {% endblock %}
 {% block contenido %}
+
     <img src="{{url_for('static',filename='img/Zorro.png')}}" alt="Zorro" width="400" height="400" style="float:right">
 
     <div style="text-align: center; FONT-SIZE: 8pt">
-        <a href="/productos" class="btn btn-success" >
+        <a href="/prueba" class="btn btn-success" >
         <span style="font-size: 50pt; FONT-FAMILY: Helvetica;">Productos</span>
         </a>
     </div>
