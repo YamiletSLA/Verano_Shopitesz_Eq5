@@ -1,0 +1,39 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+{{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido%}
+    <h1>LISTADO DE PRODUCTOS</h1>
+        <table class="table table-bordered table-hover">
+        <thead>
+        <th>No.</th>
+        <th>Descripcion</th>
+        <th>Fecha estimada de entrega</th>
+        <th>Estado del pedido</th>
+        </thead>
+        <tr>
+            <td>1</td>
+            <td>Laptop DEL</td>
+            <td>10/07/2021</td>
+            <td>Enviado</td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>Galaxy S21</td>
+            <td>11/07/2021</td>
+            <td>Pendiente</td>
+        </tr>
+
+        <tr>
+            <td>3</td>
+            <td>Laptop HP</td>
+            <td>11/07/2021</td>
+            <td>Pendiente</td>
+        </tr>
+
+
+
+    </table>
+{% endblock%}
