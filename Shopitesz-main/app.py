@@ -30,6 +30,9 @@ def linea():
 def video():
     return render_template("productos/consultaGeneralVideo.html")
 
+@app.route("/pedidos")
+def pedidos():
+    return render_template("pedidos/verpedido.html")
 
 
 if __name__=='__main__':
