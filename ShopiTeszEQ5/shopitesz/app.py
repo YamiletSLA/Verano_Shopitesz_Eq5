@@ -6,7 +6,7 @@ Bootstrap(app)
 @app.route("/")
 def inicio():
    # return "Hola Mundo"
-    return render_template('principal.html')
+    return render_template('/principal.html')
 @app.route("/validarSesion")
 def validadSesion():
     return render_template('usuarios/login.html')
