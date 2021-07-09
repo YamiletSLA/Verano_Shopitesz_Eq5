@@ -4,7 +4,7 @@
     {% include 'comunes/menu.html' %}
 {% endblock %}
 {% block contenido %}
-
+    <img  src = " {{url_for ('static', filename = 'img / Zorro.png')}} ">
     <a href="/productos" class="btn btn-success">Productos</a>
     <a href="/validarSesion" class="btn btn-primary">Iniciar Sesion</a>
 {% endblock %}
