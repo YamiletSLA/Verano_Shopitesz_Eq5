@@ -1,0 +1,40 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+{{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido%}
+    <h1>LISTADO DE PRODUCTOS</h1>
+        <table class="table table-bordered table-hover">
+        <thead>
+        <th>FOTO</th>
+        <th>NOMBRE</th>
+        <th>DESCRIPCIÓN</th>
+        <th>PRECIO</th>
+        <th>STOCK</th>
+        </thead>
+        <tr>
+            <td>FOTO</td>
+            <td>Galaxy 21</td>
+            <td>Procesador: SD888, ROM: 256GB, RAM: 12GB,SO: Android 11</td>
+            <td>$20,000</td>
+            <td>5 unidades</td>
+        </tr>
+
+        <tr>
+            <td>FOTO</td>
+            <td>Iphone 12</td>
+            <td>Procesador: A13, ROM: 256GB, RAM: 12GB,SO: IOS 14</td>
+            <td>$25,000</td>
+            <td>5 unidades</td>
+        </tr>
+
+        <tr>
+            <td>FOTO</td>
+            <td>Oneplus 9 pro</td>
+            <td>Procesador: SD888, ROM: 256GB, RAM: 12GB,SO: Android 11</td>
+            <td>$23,000</td>
+            <td>5 unidades</td>
+        </tr>
+    </table>
+{% endblock%}
