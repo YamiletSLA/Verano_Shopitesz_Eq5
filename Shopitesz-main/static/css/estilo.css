@@ -22,7 +22,7 @@ h1{
 
 header{
     background: brown;
-    background-image: url('../img/logoFox.jpg');
+    background-image: url('../img/Zorro.png');
     background-size: contain;
     background-repeat:no-repeat;
     height: 50%;
@@ -36,7 +36,7 @@ nav{
 }
 body{
     /*background-color:rgb(88, 63, 63);*/
-    background-image: url('../img/fondo_pantalla2.jpeg');
+    background-image: url('../img/Fondo.jpg');
     background-size: cover;
     opacity: 0.8;
 }
@@ -45,5 +45,5 @@ table{
 }
 th{
     background:black;
-    color:white;
+    color:red;
 }
