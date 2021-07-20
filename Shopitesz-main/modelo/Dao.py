@@ -128,4 +128,5 @@ class Tarjeta(db.Model):
     saldo = Column(Float, nullable=False)
     Bandco = Column(String, nullable=False)
     estatus = Column(String, nullable=False)
+    usuario=relationship('Usuario',backref='Tarjetas',lazy='select')
 
