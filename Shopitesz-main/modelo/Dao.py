@@ -56,6 +56,30 @@ class Producto(db.Model):
     def consultaGeneral(self):
         return self.query.all()
 
+    def consultaIndividuall(self,id):
+        return Categoria.query.get(id)
+
+    def consultarImagen(self,id):
+        return self.consultaIndividuall(id).imagen
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def eliminar(self,id):
+        cat=self.consultaIndividuall(id)
+        db.session.delete(cat)
+        db.session.commit()
+
+    def eliminacionLogica(self,id):
+        cat = self.consultaIndividuall(id)
+        cat.estatus='Inactiva'
+        cat.editar()
+
 class Usuario(UserMixin,db.Model):
     __tablename__='Usuarios'
     idUsuario=Column(Integer,primary_key=True)
@@ -129,4 +153,20 @@ class Tarjeta(db.Model):
     Bandco = Column(String, nullable=False)
     estatus = Column(String, nullable=False)
     usuario=relationship('Usuario',backref='Tarjetas',lazy='select')
+
+    #agregar tarjeta
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def consultaIndividuall(self,id):
+        return Categoria.query.get(id)
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
 
