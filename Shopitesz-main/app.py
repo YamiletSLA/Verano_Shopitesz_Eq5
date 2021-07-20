@@ -6,7 +6,7 @@ from modelo.Dao import db,Categoria,Producto,Usuario,Tarjeta
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql:/user_shopitesz:Shopit3sz.123@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql:/user_shopitesz:Shopit3sz.123@localhost/MiConexión'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 login_manager=LoginManager()
