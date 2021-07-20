@@ -5,6 +5,41 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash,check_password_hash
 db=SQLAlchemy()
 
+class Categoria(db.Model):
+    __tablename__='Categorias'
+    idCategoria=Column(Integer,primary_key=True)
+    nombre=Column(String,unique=True)
+    estatus=Column(String,nullable=False)
+    imagen=Column(BLOB)
+
+    def consultaGeneral(self):
+        return self.query.all()
+        #return self.query.filter(Categoria.estatus=='Activa').all()
+
+    def consultaIndividuall(self,id):
+        return Categoria.query.get(id)
+
+    def consultarImagen(self,id):
+        return self.consultaIndividuall(id).imagen
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def eliminar(self,id):
+        cat=self.consultaIndividuall(id)
+        db.session.delete(cat)
+        db.session.commit()
+
+    def eliminacionLogica(self,id):
+        cat = self.consultaIndividuall(id)
+        cat.estatus='Inactiva'
+        cat.editar()
+
 class Producto(db.Model):
     __tablename__='Productos'
     idProducto=Column(Integer,primary_key=True)
