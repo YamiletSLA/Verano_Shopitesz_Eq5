@@ -24,8 +24,20 @@
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="/validarSesion"><span class="glyphicon glyphicon-user"></span> INICIAR SESION</a></li>
-        <li><a href="/carrito"><span class="glyphicon glyphicon-shopping-cart"></span> CARRITO</a></li>
-    </ul>
+        {% if not current_user.is_authenticated %}
+        <li style="float:right"><a href="/Usuarios/iniciarSesion"><span class="glyphicon glyphicon-log-in"></span> Iniciar Sesion</a></li>
+        <li style="float:right"><a href="/carrito"><span class="glyphicon glyphicon-shopping-cart"></span> CARRITO</a></li>
+        {% else %}
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <span class="glyphicon glyphicon-user"></span>{{current_user.nombreCompleto}}
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/Usuarios/verPerfil"><span class="glyphicon glyphicon-edit"></span> Editar mi perfil</a></li>
+                <li><a href="/Usuarios/cerrarSesion"><span class="glyphicon glyphicon-log-out"></span> Cerrar Sesion</a></li>
+              </ul>
+           </li>
+           {% endif %}
+        </ul>
   </div>
 </nav>

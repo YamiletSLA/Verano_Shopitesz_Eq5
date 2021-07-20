@@ -61,13 +61,14 @@ carac.{
     color: black;
 }
 .btn-default
-
 {
-
-background-color: #68889E;
-
+background-color: #7C8683;
 color:#FFF;
-
-border-color: #2F3E48;
-
+border-color: #7C8683;
+}
+.btn-default2
+{
+background-color: #010000;
+color:#FFF;
+border-color: #010000;
 }
