@@ -1,0 +1,11 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div>
+    <h1>Error, recurso no encontrado</h1>
+    <img src="{{url_for('static',filename='img/error_404.jpg')}}" width="200px" height="300px" class="img-rounded">
+</div>
+{% endblock %}
