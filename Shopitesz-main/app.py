@@ -1,7 +1,12 @@
 from flask import Flask,render_template,request
 from flask_bootstrap import Bootstrap
+from modelo.Dao import db,Categoria,Producto,Usuario
+from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 app = Flask(__name__)
 Bootstrap(app)
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:itesz@localhost/shopitesz'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+app.secret_key='Cl4v3'
 
 @app.route("/")
 def inicio():
