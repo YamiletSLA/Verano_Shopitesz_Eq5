@@ -60,3 +60,15 @@ th{
 carac.{
     color: black;
 }
+.btn-default
+{
+background-color: #7C8683;
+color:#FFF;
+border-color: #7C8683;
+}
+.btn-default2
+{
+background-color: #010000;
+color:#FFF;
+border-color: #010000;
+}
