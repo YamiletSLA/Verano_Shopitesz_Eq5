@@ -2,21 +2,19 @@ from datetime import timedelta
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db,Categoria,Producto,Usuario
+from modelo.Dao import db,Categoria,Producto,Usuario,Tarjeta
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://user_shopitesz:Shopit3sz.123@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql:/user_shopitesz:Shopit3sz.123@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
-#Implementación de la gestion de usuarios con flask-login
 login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view='mostrar_login'
 login_manager.login_message='¡ Tu sesión expiró !'
 login_manager.login_message_category="info"
 
-# Urls defininas para el control de usuario
 @app.before_request
 def before_request():
     session.permanent=True
@@ -224,18 +222,7 @@ def error_404(e):
 @app.errorhandler(500)
 def error_500(e):
     return render_template('comunes/error_500.html'),500
+
 if __name__=='__main__':
     db.init_app(app)#Inicializar la BD - pasar la configuración de la url de la BD
     app.run(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
