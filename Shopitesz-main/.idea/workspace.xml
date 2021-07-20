@@ -16,11 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="531">
-              <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="65" />
-              <folding>
-                <element signature="e#1#85#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="382">
+              <caret line="64" selection-start-line="64" selection-end-line="65" />
             </state>
           </provider>
         </entry>
@@ -62,10 +59,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="493" />
-    <option name="y" value="15" />
+    <option name="x" value="575" />
+    <option name="y" value="95" />
     <option name="width" value="885" />
-    <option name="height" value="744" />
+    <option name="height" value="745" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -127,10 +124,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="493" y="15" width="885" height="744" extended-state="0" />
+    <frame x="460" y="76" width="708" height="596" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993804" visible="true" weight="0.2230303" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993804" visible="true" weight="0.22993827" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5006196" side_tool="true" weight="0.24947146" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -248,16 +245,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/modelo/Dao.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2482">
-          <caret line="146" column="14" selection-start-line="146" selection-start-column="14" selection-end-line="146" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/modelo/Dao.py" />
     <entry file="file://$PROJECT_DIR$/templates/usuarios/login.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -288,11 +276,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="531">
-          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="65" />
-          <folding>
-            <element signature="e#1#85#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="382">
+          <caret line="64" selection-start-line="64" selection-end-line="65" />
         </state>
       </provider>
     </entry>

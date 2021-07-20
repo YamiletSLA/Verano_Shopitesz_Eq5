@@ -1,0 +1,28 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+    <h1>LISTADO DE PRODUCTOS</h1>
+    <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <th>NOMBRE</th>
+            <th>DESCRIPCION</th>
+            <th>CATEGORIA</th>
+            <th>PRECIO</th>
+            <th>STOCK</th>
+        </thead>
+        {% for prod in productos %}
+            <tr>
+                <td>{{prod.nombre}}</td>
+                <td>{{prod.descripcion}}</td>
+                <td>{{prod.categoria.nombre}}</td>
+                <td>{{prod.precioVenta}}</td>
+                <td>{{prod.existencia}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}
