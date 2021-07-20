@@ -1,0 +1,48 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div>
+    <h1 class="bg-primary text-center">Envios</h1>
+    <form action="/envios/agregarEnvio" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="">Paqueteria</label>
+            <select name="" id="">
+                <option value="">FEDEX</option>
+                <option value="">DHL</option>
+                <option value="">UPS</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="fenvio">Fecha de envío:</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Fecha de envío: AAA/MM/DD" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="fentrega">Fecha de entrega:</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Fecha de entrega: AAA/MM/DD" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="nguia">Número de guía:</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Número de guía:" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="peso">Peso del paquete</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Peso del paquete:" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="precio">Precio</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Precio" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="total">Total a pagar</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Total a pagar" class="form-control">
+        </div>
+
+            <button type="submit" class="btn btn-primary">Registrar</button>
+            <a href="/" class="btn btn-danger">Cancelar</a>
+    </form>
+</div>
+
+{% endblock %}
