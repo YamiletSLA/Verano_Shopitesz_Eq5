@@ -1,17 +1,27 @@
 h1{
-    color:blue;
-    font-size:15px;
+    color:black;
+    font-size:36px;
     font-weight: bold;
 }
+h2{
+    color:black;
+    font-size:25px;
+    font-weight: bold;
+}h3{
+    color:black;
+    font-size:20px;
+    font-weight: bold;
+}
+
 .tituloHeader{
     color:white;
-    font-size:30px;
+    font-size:46px;
     font-weight:bold;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 #h1{
     color:green;
-    font-size:10px;
+    font-size:15px;
     font-weight:bold;
 }
 .linkButton{
@@ -21,8 +31,8 @@ h1{
 }
 
 header{
-    background: brown;
-    background-image: url('../img/zorro.jpeg');
+    background: black;
+    background-image: url('../img/Zorro.png');
     background-size: contain;
     background-repeat:no-repeat;
     height: 50%;
@@ -36,7 +46,7 @@ nav{
 }
 body{
     /*background-color:rgb(88, 63, 63);*/
-    background-image: url('../img/fondo_pantalla2.jpeg');
+    background-image: url('../img/Fondo.jpg');
     background-size: cover;
     opacity: 0.8;
 }
@@ -45,8 +55,28 @@ table{
 }
 th{
     background:black;
-    color:red;
+    color:white;
 }
-button{
-    border-radius:20px 20px;
+carac.{
+    color: black;
+}
+.btn-default
+{
+background-color: #7C8683;
+color:#FFF;
+border-color: #7C8683;
+}
+.btn-default2
+{
+background-color: #010000;
+color:#FFF;
+border-color: #010000;
+}
+
+.caja
+{
+font-size: 18px;
+font-weight: 400;
+color: #ffffff;
+background:#212F3C
 }

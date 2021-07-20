@@ -1,22 +1,37 @@
 {% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
 {% block contenido %}
     {{super()}}
-    <H1>
+    <div class="text-center" style="color: #000000; font-size: 40pt">
        ACCESO A LA TIENDA VIRTUAL
-    </H1>
-    <h1 id="h1">Debes informar tus credenciales de acceso</h1>
+    </div>
+    <br>
+    <div id="h1" class="caja text-center"><span style="color: #FFFFFF; font-size: 20pt; FONT-FAMILY: Helvetica;">Debes informar tus credenciales de acceso</span></div>
+    <br>
     <!--<p>Este es una parrafo de ejemplo</p>
     <b>Este es un texto en negritas</b>-->
     <!--<img src="/Users/roberto/Documents/GitHub/Shopitesz/static/img/login.png" width="50%" height="50%">-->
     <!--<img src="../../static/img/login.png" width="50%" height="50%">-->
-    <img src="{{url_for('static',filename='img/login.png')}}">
+    <img src="{{url_for('static',filename='img/login.png')}}" style="float: center">
+    <img src="{{url_for('static',filename='img/Zorro.png')}}" alt="Zorro" width="300" height="300" style="float:right">
+    <br>
+    <br>
     <form action="/Usuarios/validarSesion" method="post">
-        <label for="correo">Correo:</label> <!-- Aplicando el estilo en linea -->
-        <input type="email" name="correo" maxlength="50" required>
-        <label for="password">Contraseña:</label>
-        <input type="password" name="password" maxlength="20" required>
-        <a class="linkButton" href="/Usuarios/nuevo">Registrarme</a>
-        <a class="linkButton" href="/">Regresar</a>
-        <input type="submit" value="Validar">
+            <div style="float: justify">
+                <label for="correo">Correo:</label> <!-- Aplicando el estilo en linea -->
+                <input type="email" name="correo" maxlength="50" required>
+            </div>
+            <br>
+            <div>
+                <label for="password">Contraseña:</label>
+                <input type="password" name="password" maxlength="20" required>
+            </div>
+            <br>
+            <a class="btn btn-default2" href="/Usuarios/nuevo">Registrarme</a>
+            <input class="btn btn-default2" type="submit" value="Validar">
+            <a class="btn btn-default" href="/">Regresar</a>
     </form>
 {% endblock %}

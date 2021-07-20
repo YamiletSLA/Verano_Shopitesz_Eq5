@@ -6,8 +6,25 @@
 {% block contenido %}
     {{super()}}
     {%if current_user.is_authenticated %}
-        <p>Bienvenido <b>{{current_user.nombreCompleto}}</b></p>
+        <p>Bienvenido <b>{{current_user.nombreCompleto}}</b>
+        <span style="font-color: #FFFFFF; font-size: 40pt; FONT-FAMILY: Helvetica;"></span>
+        </p>
     {% endif %}
-    <a href="/productos" class="btn btn-success">Productos</a>
-    <a href="/Usuarios/iniciarSesion" class="btn btn-primary">Iniciar Sesion</a>
+    <img src="{{url_for('static',filename='img/Zorro.png')}}" alt="Zorro" width="400" height="400" style="float:right">
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div style="text-align: center; FONT-SIZE: 8pt">
+        <a href="/productos" class="btn btn-default">
+        <span style="font-color: #FFFFFF; font-size: 50pt; FONT-FAMILY: Helvetica;">Productos</span>
+        </a>
+    </div>
+    <br>
+    <div style="text-align: center;">
+        <a href="/Usuarios/iniciarSesion" class="btn btn-default2"  >
+            <span style="font-color: #FFFFFF; font-size: 50pt; FONT-FAMILY: Helvetica;">Iniciar Sesion</span>
+        </a>
+    </div>
 {% endblock %}
