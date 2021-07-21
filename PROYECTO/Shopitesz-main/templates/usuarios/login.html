@@ -6,15 +6,8 @@
 {% block contenido %}
     {{super()}}
     <div class="text-center" style="color: #000000; font-size: 40pt">
-       ACCESO A LA TIENDA VIRTUAL
+       Ingresar
     </div>
-    <br>
-    <div id="h1" class="caja text-center"><span style="color: #FFFFFF; font-size: 20pt; FONT-FAMILY: Helvetica;">Debes informar tus credenciales de acceso</span></div>
-    <br>
-    <!--<p>Este es una parrafo de ejemplo</p>
-    <b>Este es un texto en negritas</b>-->
-    <!--<img src="/Users/roberto/Documents/GitHub/Shopitesz/static/img/login.png" width="50%" height="50%">-->
-    <!--<img src="../../static/img/login.png" width="50%" height="50%">-->
     <img src="{{url_for('static',filename='img/login.png')}}" style="float: center">
     <img src="{{url_for('static',filename='img/Zorro.png')}}" alt="Zorro" width="300" height="300" style="float:right">
     <br>
@@ -30,8 +23,8 @@
                 <input type="password" name="password" maxlength="20" required>
             </div>
             <br>
-            <a class="btn btn-default2" href="/Usuarios/nuevo">Registrarme</a>
-            <input class="btn btn-default2" type="submit" value="Validar">
+            <a class="btn btn-default2" href="/Usuarios/nuevo">Crear una cuenta</a>
+            <input class="btn btn-default2" type="submit" value="Iniciar Sesión">
             <a class="btn btn-default" href="/">Regresar</a>
     </form>
 {% endblock %}
