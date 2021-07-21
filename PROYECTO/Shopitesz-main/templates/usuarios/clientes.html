@@ -6,7 +6,7 @@
 {% block contenido %}
 {{super()}}
 <div>
-    <h1 class="bg-primary text-center">Clientes</h1>
+    <h1 class="caja text-center"><span style="font-size: 30pt;"> Clientes</span></h1>
     <table class="table table-bordered">
         <th>ID</th>
         <th>NOMBRE</th>
@@ -17,14 +17,14 @@
         <th>EDITAR</th>
         {% endif %}
         {% for user in usuario %}
-
             <tr>
                 <td>{{user.idUsuario}}</td>
                 <td>{{user.nombreCompleto}}</td>
-                <td>{{user.estatus}}</td>
+                {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <td>{{user.estatus}}</td>
+                {% endif %}
                 <td>{{user.tipo}}</td>
             </tr>
-
         {% endfor %}
     </table>
 </div>

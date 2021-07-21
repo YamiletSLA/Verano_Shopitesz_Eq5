@@ -123,6 +123,20 @@ class Usuario(UserMixin,db.Model):
     def consultaUsuarios(self):
         return self.query.all()
 
+    def consultaIndividual(self,id):
+        return self.query.get(id)
+
+    #Método para editar un usuario
+    def editarUsua(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def eliminacionLogica(self,id):
+        usuario = self.consultaIndividual(id)
+        usuario.estatus = 'Inactivo'
+        usuario.editar()
+
+
 
 class Pedidos(db.Model):
     __tablename__= 'Pedidos'

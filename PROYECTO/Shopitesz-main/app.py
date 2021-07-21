@@ -6,7 +6,7 @@ from modelo.Dao import db, Categoria, Producto, Usuario
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:holamundo@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 #Implementación de la gestion de usuarios con flask-login
@@ -86,13 +86,67 @@ def cerrarSesion():
 @app.route('/Usuarios/verPerfil')
 @login_required
 def consultarUsuario():
-    return render_template('usuarios/editar.html')
+    return render_template('Usuarios/editarUsu.html')
+
+
+
+
+@app.route('/Usuarios/modificar',methods=['POST'])
+@login_required
+def modificar():
+        try:
+            usuario = Usuario()
+            usuario.idUsuario = request.form['ID']
+            usuario.nombreCompleto = request.form['nombre']
+            usuario.direccion = request.form['direccion']
+            usuario.telefono = request.form['telefono']
+            usuario.email = request.form['email']
+            if request.form['password'] != '':
+                usuario.password = request.form['password']
+            usuario.tipo = request.form['tipo']
+            if request.form['bandera'] == 'si':
+                usuario.estatus = request.form['estatus']
+            else:
+                usuario.estatus = 'Activo'
+            usuario.genero = request.form['genero']
+            usuario.editar()
+            flash('¡ Usuario modificado con exito !')
+        except:
+            flash('¡ Error al modificar al usuario !')
+            if request.form['bandera'] == 'admin':
+                return redirect(url_for('consultarClientes'))
+            else:
+                return redirect(url_for('consultarUsuario'))
+
+@app.route('/Usuarios/eliminar/<int:id>')
+@login_required
+def eliminarUsuario(id):
+    if current_user.is_authenticated and current_user.idUsuario == id:
+        try:
+            usuario = Usuario()
+            usuario.eliminacionLogica(id)
+            logout_user()
+            flash('¡ Usuario eliminado con exito !')
+        except:
+            flash('¡ Error al eliminar el usuario !')
+        return redirect(url_for('inicio'))
+    else:
+        abort(404)
 
 @app.route('/Usuarios/Clientes')
 @login_required
 def consultarClientes():
     user=Usuario()
     return render_template('usuarios/clientes.html',usuario=user.consultaUsuarios())
+
+@app.route('/Usuarios/<int:id>')
+@login_required
+def usuarioIndividual(id):
+    if current_user.is_admin():
+        usuario = Usuario()
+        return render_template('usuarios/individualUsuario.html',usuario=usuario.consultaIndividual(id))
+    else:
+        abort(404)
 #fin del manejo de usuarios
 
 @app.route("/clientes/<string:nombre>")
