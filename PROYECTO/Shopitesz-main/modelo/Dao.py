@@ -56,6 +56,10 @@ class Producto(db.Model):
     def consultaGeneral(self):
         return self.query.all()
 
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
 class Usuario(UserMixin,db.Model):
     __tablename__='Usuarios'
     idUsuario=Column(Integer,primary_key=True)
@@ -125,7 +129,7 @@ class Usuario(UserMixin,db.Model):
 
 
 class Pedidos(db.Model):
-    __tablename__= 'Pedidos'
+    __tablename__='Pedidos'
     IDPEDIDO=Column(Integer,primary_key=True)
     IDCOMPRADOR = Column(Integer, ForeignKey('Usuarios.idUsuario'))
     IDVENDEDOR = Column(Integer, ForeignKey('Usuarios.idUsuario'))
@@ -140,9 +144,24 @@ class Pedidos(db.Model):
 
 
 class Tarjetas(db.Model):
-    __tablename__ = 'Tarjetas'
-    idTarjeta = Column(Integer,primary_key=True)
-    idUsuario = Column(Integer, ForeignKey('Usuarios.idUsuario'))
-    noTarjeta = Column(String, nullable=False)
-    Banco = Column(String, nullable=False)
-    estatus = Column(String, nullable=False)
+    __tablename__='tarjetas'
+    idTarjeta=Column(Integer,primary_key=True)
+    idUsuario=Column(Integer, ForeignKey('Usuarios.idUsuario'))
+    saldo=Column(Float, nullable=False)
+    noTarjeta=Column(String, nullable=False)
+    Banco=Column(String, nullable=False)
+    estatus=Column(String, nullable=False)
+
+    def consultaTarjeta(self):
+        return self.query.all()
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def consultaIndividuall(self,id):
+        return Categoria.query.get(id)

@@ -24,5 +24,11 @@
             </tr>
         {% endfor %}
     </table>
+        {% if current_user.is_authenticated and current_user.is_admin() %}
+    <a href="/Productos/nuevo" class="btn btn-success">
+         <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar producto
+    </a>
+    {% endif %}
     </div>
 {% endblock %}
