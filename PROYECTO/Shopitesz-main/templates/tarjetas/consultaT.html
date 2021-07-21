@@ -6,40 +6,40 @@
 {% block contenido %}
 {{super()}}
 <div>
-    <h1 class="bg-primary text-center">Listado de Categorias</h1>
+    <h1 class="bg-primary text-center">Listado de Tarjetas del usuario: {{current_user.nombreCompleto}}</h1>
     {% if current_user.is_authenticated and current_user.is_admin() %}
     <a href="/Categorias/nueva" class="btn btn-success">
          <span class="glyphicon glyphicon-plus-sign"></span>
         Agregar Categoria
     </a>
     {% endif %}
-    <table class="table table-striped">
+    <table class="table table-condensed">
         <th>ID</th>
-        <th>NOMBRE</th>
-        {% if current_user.is_authenticated and current_user.is_admin() %}
-         <th>ESTATUS</th>
-        {% endif %}
-        <th>IMAGEN</th>
-        {% if current_user.is_authenticated and current_user.is_admin() %}
+        <th>NUMERO DE TARJETA</th>
+        <th>BANCO</th>
+        <th>ESTATUS</th>
+        <th>USUARIO</th>
         <th>EDITAR</th>
-        {% endif %}
-        {% for cat in categorias %}
+        {% for tar in tarjetas %}
             <tr>
-                <td>{{cat.idCategoria}}</td>
-                <td>{{cat.nombre}}</td>
-                {% if current_user.is_authenticated and current_user.is_admin() %}
-                    <td>{{cat.estatus}}</td>
-                {% endif %}
-                <td><img src="/Categorias/consultarImagen/{{cat.idCategoria}}" width="100px" height="80px"></td>
-                {% if current_user.is_authenticated and current_user.is_admin() %}
-                    <td>
-                        <a href="/Categorias/{{cat.idCategoria}}">
-                            <span class="glyphicon glyphicon-edit"></span>
-                        </a>
-                    </td>
-                {% endif %}
+                <td>{{tar.idTarjeta}}</td>
+                <td>{{tar.noTarjeta}}</td>
+                <td>{{tar.Banco}}</td>
+                <td>{{tar.estatus}}</td>
+                <td>{{tar.idUsuario}}</td>
+                <td>
+                    <a href="/Tarjetas/{{tar.idTarjeta}}">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
             </tr>
         {% endfor %}
     </table>
+    {% if current_user.is_authenticated and current_user.is_comprador() %}
+    <a href="/Tarjetas/nueva" class="btn btn-success">
+         <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar Tarjeta
+    </a>
+    {% endif %}
 </div>
 {% endblock %}

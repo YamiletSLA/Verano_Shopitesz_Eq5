@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db, Categoria, Producto, Usuario
+from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 app = Flask(__name__)
 Bootstrap(app)
@@ -153,33 +153,52 @@ def usuarioIndividual(id):
 def consultarCliente(nombre):
     return "consultando al cliente:"+nombre
 
+#PRODUCTOS
+
 @app.route("/productos")
 def consultarProductos():
     producto=Producto()
     return render_template("productos/consultaGeneral.html",productos=producto.consultaGeneral())
 
-@app.route("/productos/agregar")
+@app.route('/Productos/nuevo')
+@login_required
+def nuevoProducto():
+    if current_user.is_authenticated and current_user.is_admin():
+            return render_template('productos/agregarP.html')
+    else:
+        abort(404)
+
+@app.route('/Productos/agregar',methods=['post'])
+@login_required
 def agregarProducto():
-    return "<b>agregando un producto</b><table><th>Prueba</th></table>"
+    try:
+        if current_user.is_authenticated:
+            if current_user.is_admin():
+                try:
+                    prod=Producto()
+                    prod.idCategoria=1
+                    prod.nombre=request.form['nombre']
+                    prod.descripcion=request.form['desc']
+                    prod.precioVenta=request.form['precio']
+                    prod.existencia=request.form['exist']
+                    prod.foto=request.files['imagen'].stream.read()
+                    prod.especificaciones=request.files['espe'].stream.read()
+                    prod.estatus='Activo'
+                    prod.agregar()
+                    flash('¡ Tarjeta agregada con exito !')
+                except:
+                    flash('¡ Error al agregar la tarjeta !')
+                return redirect(url_for('consultarProductos'))
+            else:
+                abort(404)
 
-@app.route("/productos/actualizar")
-def actualizarProducto():
-    return "actualizando un producto"
-@app.route("/cesta")
-def consultarCesta():
-    return "consultando la cesta de compra"
-
-@app.route("/productos/categoria/<int:id>")
-def consultarProductosCategoria(id):
-    return "consultando los productos de la cetogoria: "+str(id)
+        else:
+            return redirect(url_for('mostrar_login'))
+    except:
+        abort(500)
 
 
-
-@app.route("/productos/<float:precio>")
-def consultarPorductosPorPrecio(precio):
-    return "Hola"+str(precio)
-
-#CRUD de Categorias
+#Categorias
 @app.route('/Categorias')
 def consultaCategorias():
     cat=Categoria()
@@ -287,10 +306,74 @@ def error_404(e):
 def error_500(e):
     return render_template('comunes/error_500.html'),500
 
+#TARJETAS
+@app.route('/Tarjetas')
+@login_required
+def consultarTarjetas():
+    tar = Tarjetas()
+    return render_template('/tarjetas/consultaT.html',tarjetas = tar.consultaTarjeta())
 
 
+@app.route('/Tarjetas/nueva')
+@login_required
+def nuevaTarjetas():
+    if current_user.is_authenticated and current_user.is_comprador():
+            return render_template('tarjetas/agregarT.html')
+    else:
+        abort(404)
 
+@app.route('/Tarjetas/agregar',methods=['post'])
+@login_required
+def agregarTarjetas():
+    try:
+        if current_user.is_authenticated:
+            if current_user.is_comprador():
+                try:
+                    tar=Tarjetas()
+                    tar.idUsuario=request.form['id']
+                    tar.noTarjeta=request.form['tarjeta']
+                    tar.saldo=10000
+                    tar.Banco=request.form['bancoE']
+                    tar.estatus='Activa'
+                    tar.agregar()
+                    flash('¡ Tarjeta agregada con exito !')
+                except:
+                    flash('¡ Error al agregar la tarjeta !')
+                return redirect(url_for('consultarTarjetas'))
+            else:
+                abort(404)
 
+        else:
+            return redirect(url_for('mostrar_login'))
+    except:
+        abort(500)
+
+@app.route('/Tarjetas/editar')
+@login_required
+def editarTarjeta():
+    if current_user.is_authenticated and current_user.is_comprador():
+        try:
+            tar=Tarjetas()
+            tar.idTarjeta=request.form['id']
+            tar.noTarjeta=request.form['tarjeta']
+            tar.Banco=request.form['bancoE']
+            tar.editar()
+            flash('¡ Tarjeta editada con exito !')
+        except:
+            flash('¡ Error al editar la tarjeta !')
+
+        return redirect(url_for('consultarTarjetas'))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+@app.route('/Tarjetas/<int:id>')
+@login_required
+def consultarTarjeta(id):
+    if current_user.is_authenticated and current_user.is_comprador():
+        tar=Tarjetas()
+        return render_template('tarjetas/editarT.html',tarjetas=tar.consultaIndividuall(id))
+    else:
+        return redirect(url_for('mostrar_login'))
 
 
 if __name__=='__main__':
