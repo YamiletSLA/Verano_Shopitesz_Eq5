@@ -120,31 +120,9 @@ class Usuario(UserMixin,db.Model):
         db.session.add(self)
         db.session.commit()
 
-class Envios(db.Model):
-    __tablename__='ENVIOS'
-    IDENVIO=Column(Integer,primary_key=True)
-    IDPEDIDO=Column(Integer,ForeignKey('Pedidos.IDPEDIDO'))
-    IDPAQUETERIA=Column(Integer,ForeignKey('Paqueterias.IDPAQUETERIA'))
-    FECHAENVIO=Column(String,nullable=True)
-    FECHAENTREGA=Column(String,nullable=False)
-    NOGUIA=Column(Integer,nullable=False)
-    PESOPAQUETE=Column(Float,nullable=False)
-    PRECIOGR=Column(Float,nullable=False)
-    TOTOALPAGAR=Column(Float,nullable=False)
-    ESTATUS = Column(String,nullable=False)
-    #paqueteria = relationship('Paqueterias', backref='envios', lazy='select')
-    def agregar(self):
-        db.session.add(self)
-        db.session.commit()
+    def consultaUsuarios(self):
+        return self.query.all()
 
-class Paqueterias(db.Model):
-    __tablename__ = 'PAQUETERIAS'
-    IDPAQUETERIA = Column(Integer,primary_key=True)
-    NOMBRE = Column(String,nullable=False)
-    PAGINAWEB = Column(String,nullable=False)
-    PRECIOGR = Column(Float, nullable=False)
-    TELEFONO = Column(String, nullable=False)
-    ESTATUS = Column(String,nullable=False)
 
 class Pedidos(db.Model):
     __tablename__= 'Pedidos'

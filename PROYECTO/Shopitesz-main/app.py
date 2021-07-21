@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db, Categoria, Producto, Usuario, Envios
+from modelo.Dao import db, Categoria, Producto, Usuario
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 app = Flask(__name__)
 Bootstrap(app)
@@ -66,7 +66,7 @@ def agregarUsuario():
 
 @app.route("/Usuarios/validarSesion",methods=['POST'])
 def login():
-    correo=request.form['correo']
+    correo=request.form['email']
     password=request.form['password']
     usuario=Usuario()
     user=usuario.validar(correo,password)
@@ -87,7 +87,17 @@ def cerrarSesion():
 @login_required
 def consultarUsuario():
     return render_template('usuarios/editar.html')
+
+@app.route('/Usuarios/Clientes')
+@login_required
+def consultarClientes():
+    user=Usuario()
+    return render_template('usuarios/clientes.html',usuario=user.consultaUsuarios())
 #fin del manejo de usuarios
+
+@app.route("/clientes/<string:nombre>")
+def consultarCliente(nombre):
+    return "consultando al cliente:"+nombre
 
 @app.route("/productos")
 def consultarProductos():
@@ -109,9 +119,7 @@ def consultarCesta():
 def consultarProductosCategoria(id):
     return "consultando los productos de la cetogoria: "+str(id)
 
-@app.route("/clientes/<string:nombre>")
-def consultarCliente(nombre):
-    return "consultando al cliente:"+nombre
+
 
 @app.route("/productos/<float:precio>")
 def consultarPorductosPorPrecio(precio):
@@ -225,41 +233,9 @@ def error_404(e):
 def error_500(e):
     return render_template('comunes/error_500.html'),500
 
-@app.route('/Envios')
-@login_required
-def envios():
-    return render_template('envios/envio.html')
 
 
-@app.route('/envios/agregarEnvio',methods=['post'])
-@login_required
-def agregarEnvio():
-    try:
-        if current_user.is_authenticated:
-            if current_user.is_admin():
-                try:
-                    envio=Envios()
-                    envio.IDPEDIDO=1
-                    envio.IDPAQUETERIA= 1
-                    envio.FECHAENVIO = request.form['fenvio']
-                    envio.FECHAENTREGA = request.form['fentrega']
-                    envio.NOGUIA = request.form['nguia']
-                    envio.PESOPAQUETE = request.form['peso']
-                    envio.PRECIOGR = request.form['precio']
-                    envio.TOTOALPAGAR = request.form['total']
-                    envio.ESTATUS = 'ENVIADO'
-                    envio.agregar()
-                    flash('¡ Envio agregado con exito !')
-                except:
-                    flash('¡ Error al agregar el envio !')
-                return redirect(url_for('principal'))
-            else:
-                abort(404)
 
-        else:
-            return redirect(url_for('mostrar_login'))
-    except:
-        abort(500)
 
 
 
