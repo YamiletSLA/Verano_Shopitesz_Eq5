@@ -1,0 +1,11 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div>
+    <h1>Lo sentimos, estamos tabajando para reparar el problema</h1>
+    <img src="{{url_for('static',filename='img/error_500.jpg')}}" width="100px" height="100px" class="img-rounded">
+</div>
+{% endblock %}

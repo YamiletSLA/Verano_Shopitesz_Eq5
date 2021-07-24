@@ -1,0 +1,30 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+    {{super()}}
+    {%if current_user.is_authenticated %}
+
+        <span style="font-color: #FFFFFF; font-size: 40pt; FONT-FAMILY: Helvetica;"></span>
+        </p>
+    {% endif %}
+    <img src="{{url_for('static',filename='img/Zorro.png')}}" alt="Zorro" width="400" height="400" style="float:right">
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div style="text-align: center; FONT-SIZE: 8pt">
+        <a href="/productos" class="btn btn-default">
+        <span style="font-color: #FFFFFF; font-size: 50pt; FONT-FAMILY: Helvetica;">Productos</span>
+        </a>
+    </div>
+    <br>
+    <div style="text-align: center;">
+        <a href="/Usuarios/iniciarSesion" class="btn btn-default2"  >
+            <span style="font-color: #FFFFFF; font-size: 50pt; FONT-FAMILY: Helvetica;">Iniciar Sesion</span>
+        </a>
+    </div>
+{% endblock %}
