@@ -1,8 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column,Integer,String,BLOB,ForeignKey,Float
+from sqlalchemy import Column,Integer,String,BLOB,ForeignKey,Float, Date
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash,check_password_hash
+import datetime
 db=SQLAlchemy()
 
 class Categoria(db.Model):
@@ -54,7 +55,13 @@ class Producto(db.Model):
     categoria=relationship('Categoria',backref='productos',lazy='select')
 
     def consultaGeneral(self):
-        return self.query.all()
+        return self.query.filter(Producto.estatus == 'Activo').all()
+
+    def consultaIndividual(self,id):
+        return Producto.query.get(id)
+
+    def consultarProductosPorCategoria(self, idCategoria):
+        return self.query.filter(Producto.idCategoria == idCategoria, Producto.estatus == 'Activo').all()
 
     def agregar(self):
         db.session.add(self)
@@ -227,3 +234,20 @@ class Paqueterias(db.Model):
         paq = self.consultaIndividuall(id)
         paq.estatus='Inactiva'
         paq.editar()
+
+class Carrito(db.Model):
+    __tablename__='Carrito'
+    idCarrito=Column(Integer,primary_key=True)
+    idUsuario=Column(Integer,ForeignKey('Usuarios.idUsuario'))
+    idProducto=Column(Integer,ForeignKey('Productos.idProducto'))
+    fecha=Column(Date,default=datetime.date.today())
+    cantidad=Column(Integer,nullable=False,default=1)
+    estatus=Column(String,nullable=False,default='Pendiente')
+    producto=relationship('Producto',backref='carrito',lazy='select')
+    usuario=relationship('Usuario',backref='carrito',lazy='select')
+
+    def agregarCarrito(self):
+        db.session.add(self)
+        db.session.commit()
+    def consultaGeneralCar(self,idUsuario):
+        return self.query.filter(Carrito.idUsuario==idUsuario).all()

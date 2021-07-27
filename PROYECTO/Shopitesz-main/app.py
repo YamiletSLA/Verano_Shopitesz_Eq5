@@ -3,11 +3,13 @@ from urllib import request
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias
+from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias, Carrito
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
+import json
+
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:holamundo@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 #Implementación de la gestion de usuarios con flask-login
@@ -199,9 +201,31 @@ def agregarProducto():
 def consultarProducto(id):
     if current_user.is_authenticated and current_user.is_admin():
         prod=Producto()
-        return render_template('productos/editarP.html',prod=prod.consultaIndividuall(id))
+        return render_template('productos/editarP.html',prod=prod.consultaIndividual(id))
     else:
         return redirect(url_for('mostrar_login'))
+
+@app.route("/productos/categorias")
+def productosPorCategoria():
+    categoria=Categoria()
+    return render_template('productos/productosPorCategoria.html',categorias=categoria.consultaGeneral())
+
+@app.route("/productos/categoria/<int:id>")
+def consultarProductosPorCategoria(id):
+    producto=Producto()
+    if id==0:
+        lista=producto.consultaGeneral()
+    else:
+        lista=producto.consultarProductosPorCategoria(id)
+    #print(lista)
+    listaProductos=[]
+    #Generacion de un diccionario para convertir los datos a JSON
+    for prod in lista:
+        prod_dic={'idProducto':prod.idProducto,'nombre':prod.nombre,'descripcion':prod.descripcion,'precio':prod.precioVenta,'existencia':prod.existencia}
+        listaProductos.append(prod_dic)
+    #print(listaProductos)
+    var_json=json.dumps(listaProductos)
+    return var_json
 
 @app.route('/Productos/eliminar/<int:id>')
 @login_required
@@ -496,6 +520,32 @@ def eliminarPaqueteria(id):
         return redirect(url_for('consultarPaqueterias'))
     else:
         return redirect(url_for('mostrar_login'))
+
+# Seccion para el carrito
+@app.route('/carrito/agregar/<data>',methods=['get'])
+def agregarProductoCarrito(data):
+    msg=''
+    if current_user.is_authenticated and current_user.is_comprador():
+        datos=json.loads(data)
+        carrito=Carrito()
+        carrito.idProducto=datos['idProducto']
+        carrito.idUsuario=current_user.idUsuario
+        carrito.cantidad=datos['cantidad']
+        carrito.agregarCarrito()
+        msg={'estatus':'ok','mensaje':'Producto agregado a la cesta.'}
+    else:
+        msg = {"estatus": "error", "mensaje": "Debes iniciar sesion"}
+    return json.dumps(msg)
+
+@app.route("/carrito")
+@login_required
+def consultarCesta():
+    if current_user.is_authenticated:
+        carrito=Carrito()
+        return render_template('carrito/consultaGeneral.html',cesta=carrito.consultaGeneralCar(current_user.idUsuario))
+    else:
+        return redirect(url_for('mostrar_login'))
+
 
 
 if __name__=='__main__':
