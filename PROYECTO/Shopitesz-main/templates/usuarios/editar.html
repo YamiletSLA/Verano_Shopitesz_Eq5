@@ -4,23 +4,11 @@
     {% include 'comunes/menu.html' %}
 {% endblock %}
 {% block contenido %}
-    <h1 class="caja text-center"><span style="font-size: 20pt;">Edición de Usuarios</span></h1>
+    <h1 class="caja text-center"><span style="font-size: 20pt;">Usuario: {{current_user.nombreCompleto}}</span></h1>
     <form action="/Usuarios/modificar" method="post">
          <div class="form-group">
             <label for="id">ID:</label>
             <input type="number" name="ID" maxlength="12" class="form-control" required value="{{current_user.idUsuario}}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="estatus">Estatus:</label>
-            <select name='estatus' class="form-control">
-                {% if usuario.estatus == 'Activo' %}
-                <option selected>Activo</option>
-                <option>Inactivo</option>
-                {% else %}
-                <option>Activo</option>
-                <option selected>Inactivo</option>
-                {% endif %}
-            </select>
         </div>
         <div class="form-group">
             <label for="nombre">Nombre completo:</label>
@@ -33,10 +21,6 @@
         <div class="form-group">
             <label for="direccion">Dirección</label>
             <input type="text" name="direccion" maxlength="60" class="form-control" required value="{{current_user.direccion}}">
-        </div>
-        <div class="form-group">
-            <label for="clave">Password:</label>
-            <input type="password" name="password" maxlength="20" class="form-control" required value="{{current_user.password}}">
         </div>
         <div class="form-group">
             <label for="telefono">Telefono:</label>
@@ -73,11 +57,17 @@
             <span class="glyphicon glyphicon-floppy-disk"></span>
             Guardar
         </button>
+        <a href="/Usuarios/eliminar/{{current_user.idUsuario}}" class="btn btn-danger mb-3">
+            <span class="glyphicon glyphicon-circle-arrow-left"></span>
+            Eliminar Cuenta
+        </a>
         <a href="/Usuarios/iniciarSesion" class="btn btn-default mb-3">
             <span class="glyphicon glyphicon-circle-arrow-left"></span>
             Cancelar
         </a>
+
     </form>
+
     <br>
     <br>
 {% endblock %}

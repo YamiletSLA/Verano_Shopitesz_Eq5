@@ -14,25 +14,25 @@
     </a>
     {% endif %}
     <table class="table table-condensed">
-        <th>ID</th>
         <th>NUMERO DE TARJETA</th>
         <th>BANCO</th>
         <th>ESTATUS</th>
-        <th>USUARIO</th>
+        <th>SALDO</th>
         <th>EDITAR</th>
         {% for tar in tarjetas %}
+        {% if tar.idUsuario == current_user.idUsuario %}
             <tr>
-                <td>{{tar.idTarjeta}}</td>
                 <td>{{tar.noTarjeta}}</td>
                 <td>{{tar.Banco}}</td>
                 <td>{{tar.estatus}}</td>
-                <td>{{tar.idUsuario}}</td>
+                <td>{{tar.saldo}}</td>
                 <td>
                     <a href="/Tarjetas/{{tar.idTarjeta}}">
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
                 </td>
             </tr>
+        {% endif %}
         {% endfor %}
     </table>
     {% if current_user.is_authenticated and current_user.is_comprador() %}

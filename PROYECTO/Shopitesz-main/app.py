@@ -1,4 +1,5 @@
 from datetime import timedelta
+from urllib import request
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
@@ -91,20 +92,27 @@ def consultarUsuario():
 @app.route('/Usuarios/Clientes')
 @login_required
 def consultarClientes():
-    user=Usuario()
-    return render_template('usuarios/clientes.html',usuario=user.consultaUsuarios())
-
+    if current_user.is_authenticated and current_user.is_admin():
+        user=Usuario()
+        return render_template('usuarios/clientes.html',user=user.consultaUsuarios())
+    else:
+        return render_template('usuarios/login.html')
 @app.route('/Usuarios/Vendedores')
 @login_required
 def consultarVendedores():
-    user=Usuario()
-    return render_template('usuarios/vendedores.html',usuario=user.consultaUsuarios())
-
+    if current_user.is_authenticated and current_user.is_admin():
+        user=Usuario()
+        return render_template('usuarios/vendedores.html',user=user.consultaUsuarios())
+    else:
+        return render_template('usuarios/login.html')
 @app.route('/Usuarios/Admin')
 @login_required
 def consultarAdmin():
-    user=Usuario()
-    return render_template('usuarios/admins.html',usuario=user.consultaUsuarios())
+    if current_user.is_authenticated and current_user.is_admin():
+        user=Usuario()
+        return render_template('usuarios/admins.html',user=user.consultaUsuarios())
+    else:
+        return render_template('usuarios/login.html')
 #fin del manejo de usuarios
 
 @app.route('/Usuarios/<int:id>')
@@ -112,10 +120,36 @@ def consultarAdmin():
 def consultarUnUsuario(id):
     if current_user.is_authenticated and current_user.is_admin():
         user=Usuario()
-        return render_template('usuarios/mod.html',user=user.consultaIndividual(id))
+        return render_template('usuarios/editarUsu.html',user=user.consultaIndividual(id))
     else:
         return redirect(url_for('mostrar_login'))
 
+@app.route('/Usuarios/modificar',methods=['POST'])
+@login_required
+def modificarUsuario():
+    if current_user.is_authenticated:
+        try:
+            user=Usuario()
+            user.idUsuario=request.form['ID']
+            user.nombreCompleto=request.form['nombre']
+            user.email=request.form['email']
+            user.direccion=request.form['direccion']
+            user.genero=request.form['genero']
+            user.tipo=request.form['tipo']
+            user.editarUsua()
+            flash('¡ Usuario editado con exito !')
+        except:
+            flash('¡ Error al editar el usuario !')
+        if user.tipo == 'Comprador':
+            return redirect(url_for('consultarClientes'))
+        else:
+            if user.tipo == 'Vendedor':
+                return redirect(url_for('consultarVendedores'))
+            else :
+                return redirect(url_for('consultarAdmin'))
+
+    else:
+        return redirect(url_for('mostrar_login'))
 #PRODUCTOS
 
 @app.route("/productos")
@@ -175,7 +209,7 @@ def eliminarProducto(id):
     if current_user.is_authenticated and current_user.is_admin():
         try:
             prod=Producto()
-            prod.eliminacionLogica(id)
+            prod.eliminar(id)
             flash('Producto eliminado con exito')
         except:
             flash('Error al eliminar el producto')
@@ -296,9 +330,11 @@ def error_500(e):
 @app.route('/Tarjetas')
 @login_required
 def consultarTarjetas():
-    tar = Tarjetas()
-    return render_template('/tarjetas/consultaT.html',tarjetas = tar.consultaTarjeta())
-
+    if current_user.is_authenticated and current_user.is_comprador():
+        tar = Tarjetas()
+        return render_template('/tarjetas/consultaT.html',tarjetas = tar.consultaTarjeta())
+    else:
+        abort(404)
 
 @app.route('/Tarjetas/nueva')
 @login_required
@@ -318,7 +354,7 @@ def agregarTarjetas():
                     tar=Tarjetas()
                     tar.idUsuario=request.form['id']
                     tar.noTarjeta=request.form['tarjeta']
-                    tar.saldo=10000
+                    tar.saldo=request.form['saldo']
                     tar.Banco=request.form['bancoE']
                     tar.estatus='Activa'
                     tar.agregar()
@@ -334,13 +370,13 @@ def agregarTarjetas():
     except:
         abort(500)
 
-@app.route('/Tarjetas/editar')
+@app.route('/Tarjetas/editar',methods=['post'])
 @login_required
 def editarTarjeta():
     if current_user.is_authenticated and current_user.is_comprador():
         try:
             tar=Tarjetas()
-            tar.idTarjeta=request.form['id']
+            tar.idTarjeta=request.form['idT']
             tar.noTarjeta=request.form['tarjeta']
             tar.Banco=request.form['bancoE']
             tar.editar()
@@ -367,7 +403,7 @@ def eliminarTarjeta(id):
     if current_user.is_authenticated and current_user.is_comprador():
         try:
             tar=Tarjetas()
-            tar.eliminacionLogica(id)
+            tar.eliminar(id)
             flash('Tarjeta eliminada con exito')
         except:
             flash('Error al eliminar la tarjeta')

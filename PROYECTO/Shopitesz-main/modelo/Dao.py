@@ -60,6 +60,11 @@ class Producto(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def eliminar(self,id):
+        cat=self.consultaIndividuall(id)
+        db.session.delete(cat)
+        db.session.commit()
+
 class Usuario(UserMixin,db.Model):
     __tablename__='Usuarios'
     idUsuario=Column(Integer,primary_key=True)
@@ -178,4 +183,14 @@ class Tarjetas(db.Model):
         db.session.commit()
 
     def consultaIndividuall(self,id):
-        return Categoria.query.get(id)
+        return Tarjetas.query.get(id)
+
+    def eliminacionLogica(self,id):
+        tar = self.consultaIndividual(id)
+        tar.estatus='Inactiva'
+        tar.editar()
+
+    def eliminar(self,id):
+        cat=self.consultaIndividuall(id)
+        db.session.delete(cat)
+        db.session.commit()
