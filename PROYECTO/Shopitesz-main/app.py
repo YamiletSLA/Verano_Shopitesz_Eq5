@@ -3,7 +3,7 @@ from urllib import request
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas
+from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 app = Flask(__name__)
 Bootstrap(app)
@@ -415,8 +415,8 @@ def eliminarTarjeta(id):
 @app.route('/Paqueterias')
 @login_required
 def consultarPaqueterias():
-   paq=Paqueterias();
-   return render_template('/Paqueterias/consultaP.html',paqueterias = paq.consultaPaqueterias())
+   paq=Paqueterias()
+   return render_template('/paqueterias/consultaP.html',paqueterias = paq.consultaPaqueterias())
 
 
 @app.route('/Paqueterias/nueva')
@@ -435,11 +435,10 @@ def agregarPaqueterias():
             if current_user.is_admin():
                 try:
                     paq=Paqueterias()
-                    paq.idPaqueteria=request.form['id']
                     paq.nombre=request.form['nombre']
                     paq.paginaWeb=request.form['paginaWeb']
-                    paq.precioGr=request.form['precioGr']
-                    paq.Telefono=request.form['Telefono']
+                    paq.precioGr=request.form['precio']
+                    paq.Telefono=request.form['telefono']
                     paq.estatus='Activa'
                     paq.agregar()
                     flash('¡ Paqueteria agregada con exito !')
@@ -463,7 +462,7 @@ def editarPaqueteria():
             paq.nombre = request.form['nombre']
             paq.paginaWeb = request.form['paginaWeb']
             paq.precioGr = request.form['precioGr']
-            paq.Telefono = request.form['Telefono']
+            paq.Telefono = request.form['telefono']
             paq.estatus = 'Activa'
             paq.editar()
             flash('¡  Paqueteria editada con exito !')
