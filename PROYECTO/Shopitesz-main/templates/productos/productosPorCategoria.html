@@ -7,9 +7,9 @@
     {% include 'comunes/menu.html' %}
 {% endblock %}
 {% block contenido %}
-    <h1 class="bg-primary bg-l text-center">LISTADO DE PRODUCTOS POR CATEGORIA</h1>
-    <label>Selecciona la Categoria:</label>
-    <select id="categoria" onchange="obtenerID()">
+    <h1 class="caja bg-l text-center">BUSQUEDA POR CATEGORIA</h1>
+    <label><span style="font-size: 15pt">Selecciona la Categoria:</span></label>
+    <select id="categoria" onchange="obtenerID()" style="font-size: 15pt">
         <option value="0">Todas las categorias</option>
         {% for cat in categorias %}
             {% if cat.estatus=='Activa' %}
@@ -82,7 +82,7 @@
               </div>
           </div>
           <div class="modal-footer">
-              <button class="btn btn-default" id="agregar" onclick="agregarCarrito()">Agregar</button>
+              <button class="btn btn-default2" id="agregar" onclick="agregarCarrito()">Agregar</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
           </div>
 

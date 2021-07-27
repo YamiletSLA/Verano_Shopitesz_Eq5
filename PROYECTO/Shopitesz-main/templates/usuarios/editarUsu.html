@@ -4,7 +4,7 @@
     {% include 'comunes/menu.html' %}
 {% endblock %}
 {% block contenido %}
-    <h1 class="caja text-center"><span style="font-size: 20pt;">Edición de Usuarios</span></h1>
+    <h1 class="caja text-center">Edición de Usuarios</h1>
     <form action="/Usuarios/modificar" method="post">
          <div class="form-group">
             <label for="id">ID:</label>
@@ -53,11 +53,11 @@
             {% endif %}
         </div>
         <input type="hidden" name="bandera" value="si">
-        <button type="submit" class="btn btn-primary mb-3">
+        <button type="submit" class="btn btn-default2 mb-3">
             <span class="glyphicon glyphicon-floppy-disk"></span>
             Guardar
         </button>
-        <a href="/Usuarios/eliminar/{{current_user.idUsuario}}" class="btn btn-danger mb-3">
+        <a href="/Usuarios/eliminar/{{current_user.idUsuario}}" class="btn btn-danger mb-3" style="float:right">
             <span class="glyphicon glyphicon-circle-arrow-left"></span>
             Eliminar Cuenta
         </a>

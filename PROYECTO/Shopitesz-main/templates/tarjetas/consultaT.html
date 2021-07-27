@@ -6,7 +6,7 @@
 {% block contenido %}
 {{super()}}
 <div>
-    <h1 class="bg-primary text-center">Listado de Tarjetas del usuario: {{current_user.nombreCompleto}}</h1>
+    <h1 class="caja text-center">Listado de Tarjetas del usuario: {{current_user.nombreCompleto}}</h1>
     {% if current_user.is_authenticated and current_user.is_admin() %}
     <a href="/Categorias/nueva" class="btn btn-success">
          <span class="glyphicon glyphicon-plus-sign"></span>

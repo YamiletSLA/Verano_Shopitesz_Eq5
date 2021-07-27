@@ -1,0 +1,30 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+    <h1>LISTADO DE LA CESTA</h1>
+    <div class="table-responsive">
+    <table class="table">
+        <thead>
+            <th>Seleccionar</th>
+            <th>PRODUCTO</th>
+            <th>UNIDADES</th>
+            <th>PRECIO</th>
+            <th>TOTAL</th>
+            <th>FECHA DE REGISTRO</th>
+        </thead>
+        {% for prod in cesta %}
+            <tr>
+                <td><input type="checkbox" name="idProducto"></td>
+                <td>{{prod.producto.nombre}}</td>
+                <td>{{prod.cantidad}}</td>
+                <td>{{prod.producto.precioVenta}}</td>
+                <td>{{prod.producto.precioVenta * prod.cantidad}}</td>
+                <td>{{prod.fecha}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %}
