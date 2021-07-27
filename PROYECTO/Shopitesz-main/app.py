@@ -5,6 +5,8 @@ from flask import Flask,render_template,request,redirect,url_for,flash,session,a
 from flask_bootstrap import Bootstrap
 from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
+import json
+
 app = Flask(__name__)
 Bootstrap(app)
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:holamundo@localhost/shopitesz'
@@ -202,6 +204,28 @@ def consultarProducto(id):
         return render_template('productos/editarP.html',prod=prod.consultaIndividuall(id))
     else:
         return redirect(url_for('mostrar_login'))
+
+@app.route("/productos/categorias")
+def productosPorCategoria():
+    categoria=Categoria()
+    return render_template('productos/productosPorCategoria.html',categorias=categoria.consultaGeneral())
+
+@app.route("/productos/categoria/<int:id>")
+def consultarProductosPorCategoria(id):
+    producto=Producto()
+    if id==0:
+        lista=producto.consultaGeneral()
+    else:
+        lista=producto.consultarProductosPorCategoria(id)
+    #print(lista)
+    listaProductos=[]
+    #Generacion de un diccionario para convertir los datos a JSON
+    for prod in lista:
+        prod_dic={'idProducto':prod.idProducto,'nombre':prod.nombre,'descripcion':prod.descripcion,'precio':prod.precioVenta,'existencia':prod.existencia}
+        listaProductos.append(prod_dic)
+    #print(listaProductos)
+    var_json=json.dumps(listaProductos)
+    return var_json
 
 @app.route('/Productos/eliminar/<int:id>')
 @login_required

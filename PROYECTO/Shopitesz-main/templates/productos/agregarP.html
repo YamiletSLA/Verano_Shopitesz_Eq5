@@ -10,8 +10,8 @@
         <div class="form-group">
             <label>Categoria:</label>
             <select name="categ" class="form-control">
-                {% for cat in categorias %}
-                    <option value="{{cat.idCategoria}}">{{cat.nombre}}</option>
+                {% for categorias in categorias %}
+                    <option value="{{categorias.idCategoria}}">{{categorias.nombre}}</option>
                 {% endfor %}
             </select>
         </div>

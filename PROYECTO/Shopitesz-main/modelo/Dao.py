@@ -54,7 +54,10 @@ class Producto(db.Model):
     categoria=relationship('Categoria',backref='productos',lazy='select')
 
     def consultaGeneral(self):
-        return self.query.all()
+        return self.query.filter(Producto.estatus == 'Activo').all()
+
+    def consultarProductosPorCategoria(self, idCategoria):
+        return self.query.filter(Producto.idCategoria == idCategoria, Producto.estatus == 'Activo').all()
 
     def agregar(self):
         db.session.add(self)
