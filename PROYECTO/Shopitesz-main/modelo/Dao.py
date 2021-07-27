@@ -57,11 +57,11 @@ class Producto(db.Model):
     def consultaGeneral(self):
         return self.query.filter(Producto.estatus == 'Activo').all()
 
-    def consultaIndividual(self,id):
-        return Producto.query.get(id)
-
     def consultarProductosPorCategoria(self, idCategoria):
         return self.query.filter(Producto.idCategoria == idCategoria, Producto.estatus == 'Activo').all()
+
+    def consultaIndividual(self,id):
+        return Producto.query.get(id)
 
     def agregar(self):
         db.session.add(self)
