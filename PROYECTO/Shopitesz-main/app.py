@@ -411,6 +411,94 @@ def eliminarTarjeta(id):
     else:
         return redirect(url_for('mostrar_login'))
 
+#PAQUETERÍAS
+@app.route('/Paqueterias')
+@login_required
+def consultarPaqueterias():
+   paq=Paqueterias();
+   return render_template('/Paqueterias/consultaP.html',paqueterias = paq.consultaPaqueterias())
+
+
+@app.route('/Paqueterias/nueva')
+@login_required
+def nuevaPaqueterias():
+    if current_user.is_authenticated and current_user.is_admin():
+            return render_template('paqueterias/agregarP.html')
+    else:
+        abort(404)
+
+@app.route('/Paqueterias/agregar',methods=['post'])
+@login_required
+def agregarPaqueterias():
+    try:
+        if current_user.is_authenticated:
+            if current_user.is_admin():
+                try:
+                    paq=Paqueterias()
+                    paq.idPaqueteria=request.form['id']
+                    paq.nombre=request.form['nombre']
+                    paq.paginaWeb=request.form['paginaWeb']
+                    paq.precioGr=request.form['precioGr']
+                    paq.Telefono=request.form['Telefono']
+                    paq.estatus='Activa'
+                    paq.agregar()
+                    flash('¡ Paqueteria agregada con exito !')
+                except:
+                    flash('¡ Error al agregar la Paqueteria !')
+                return redirect(url_for('consultarPaqueterias'))
+            else:
+                abort(404)
+        else:
+            return redirect(url_for('mostrar_login'))
+    except:
+        abort(500)
+
+@app.route('/Paqueterias/editar',methods=['POST'])
+@login_required
+def editarPaqueteria():
+    if current_user.is_authenticated and current_user.is_admin():
+        try:
+            paq = Paqueterias()
+            paq.idPaqueteria = request.form['id']
+            paq.nombre = request.form['nombre']
+            paq.paginaWeb = request.form['paginaWeb']
+            paq.precioGr = request.form['precioGr']
+            paq.Telefono = request.form['Telefono']
+            paq.estatus = 'Activa'
+            paq.editar()
+            flash('¡  Paqueteria editada con exito !')
+        except:
+            flash('¡ Error al editar la  paqueteria!')
+
+        return redirect(url_for('consultarPaqueterias'))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+@app.route('/Paqueterias/<int:id>')
+@login_required
+def consultarPaqueteria(id):
+    if current_user.is_authenticated:
+        paq=Paqueterias()
+        return render_template('/Paqueterias/editarP.html',paq=paq.consultaIndividuall(id))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+@app.route('/Paqueterias/eliminar/<int:id>')
+@login_required
+def eliminarPaqueteria(id):
+    if current_user.is_authenticated and current_user.is_admin():
+        try:
+            paq=Paqueterias()
+            #paq.eliminacionLogica(id)
+            paq.eliminar(id)
+            flash('Paqueteria eliminada con exito')
+        except:
+            flash('Error al eliminar la Paqueteria')
+        return redirect(url_for('consultarPaqueterias'))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+
 if __name__=='__main__':
     db.init_app(app)#Inicializar la BD - pasar la configuración de la url de la BD
     app.run(debug=True)

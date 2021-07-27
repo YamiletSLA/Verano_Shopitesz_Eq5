@@ -194,3 +194,36 @@ class Tarjetas(db.Model):
         cat=self.consultaIndividuall(id)
         db.session.delete(cat)
         db.session.commit()
+
+class Paqueterias(db.Model):
+    __tablename__='paqueterias'
+    idPaqueteria=Column(Integer,primary_key=True)
+    nombre=Column(String, nullable=False)
+    paginaWeb=Column(String, nullable=False)
+    precioGr=Column(Float, nullable=False)
+    Telefono=Column(String, nullable=False)
+    estatus=Column(String, nullable=False)
+
+    def consultaPaqueterias(self):
+        return self.query.all()
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def consultaIndividuall(self,id):
+        return Paqueterias.query.get(id)
+
+    def eliminar(self,id):
+        paq=self.consultaIndividuall(id)
+        db.session.delete(paq)
+        db.session.commit()
+
+    def eliminacionLogica(self,id):
+        paq = self.consultaIndividuall(id)
+        paq.estatus='Inactiva'
+        paq.editar()
