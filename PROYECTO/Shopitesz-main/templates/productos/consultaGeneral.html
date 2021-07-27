@@ -13,9 +13,9 @@
             <th>CATEGORIA</th>
             <th>PRECIO</th>
             <th>STOCK</th>
-            {% if current_user.is_authenticated and current_user.is_admin() %}
+            <th>IMAGEN</th>
             <th>EDITAR</th>
-            {% endif %}
+
         </thead>
         {% for prod in productos %}
             <tr>
@@ -24,6 +24,7 @@
                 <td>{{prod.categoria.nombre}}</td>
                 <td>{{prod.precioVenta}}</td>
                 <td>{{prod.existencia}}</td>
+                <td><img src="/productos/foto/{{prod.idProducto}}"  width="100px" height="100px"></td>
                 {% if current_user.is_authenticated and current_user.is_admin() %}
                 <td>
                     <a href="/Productos/{{prod.idProducto}}">

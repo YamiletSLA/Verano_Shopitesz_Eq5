@@ -3,13 +3,13 @@ from urllib import request
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias, Carrito
+from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 import json
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://user_shopitesz:Shopit3sz.123@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 #Implementación de la gestion de usuarios con flask-login
@@ -167,6 +167,11 @@ def nuevoProducto():
     else:
         abort(404)
 
+@app.route('/productos/foto/<int:id>')
+def consultarFotoPorducto(id):
+    prod=Producto()
+    return prod.consultarFoto(id)
+
 @app.route('/Productos/agregar',methods=['post'])
 @login_required
 def agregarProducto():
@@ -201,7 +206,32 @@ def agregarProducto():
 def consultarProducto(id):
     if current_user.is_authenticated and current_user.is_admin():
         prod=Producto()
-        return render_template('productos/editarP.html',prod=prod.consultaIndividual(id))
+        return render_template('productos/editarP.html',prod=prod.consultaIndividuall(id))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+@app.route('/Productos/editar',methods=['POST'])
+@login_required
+def editarProducto():
+    if current_user.is_authenticated and current_user.is_admin():
+        try:
+            prod=Producto()
+            prod.idCategoria=request.form['idCategoria']
+            prod.nombre=request.form['nombre']
+            prod.descripcion = request.form['descripcion']
+            prod.precioVenta = request.form['precioVenta']
+            prod.existencia = request.form['existencia']
+            prod.estatus = request.form['estatus']
+            imagen=request.files['imagen'].stream.read()
+            if imagen:
+                prod.imagen=imagen
+            prod.estatus=request.values.get("estatus","Inactivo")
+            prod.editar()
+            flash('¡ Producto editado con exito !')
+        except:
+            flash('¡ Error al editar el producto !')
+
+        return redirect(url_for('consultarProductos'))
     else:
         return redirect(url_for('mostrar_login'))
 
@@ -520,32 +550,6 @@ def eliminarPaqueteria(id):
         return redirect(url_for('consultarPaqueterias'))
     else:
         return redirect(url_for('mostrar_login'))
-
-# Seccion para el carrito
-@app.route('/carrito/agregar/<data>',methods=['get'])
-def agregarProductoCarrito(data):
-    msg=''
-    if current_user.is_authenticated and current_user.is_comprador():
-        datos=json.loads(data)
-        carrito=Carrito()
-        carrito.idProducto=datos['idProducto']
-        carrito.idUsuario=current_user.idUsuario
-        carrito.cantidad=datos['cantidad']
-        carrito.agregarCarrito()
-        msg={'estatus':'ok','mensaje':'Producto agregado a la cesta.'}
-    else:
-        msg = {"estatus": "error", "mensaje": "Debes iniciar sesion"}
-    return json.dumps(msg)
-
-@app.route("/carrito")
-@login_required
-def consultarCesta():
-    if current_user.is_authenticated:
-        carrito=Carrito()
-        return render_template('carrito/consultaGeneral.html',cesta=carrito.consultaGeneralCar(current_user.idUsuario))
-    else:
-        return redirect(url_for('mostrar_login'))
-
 
 
 if __name__=='__main__':

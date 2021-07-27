@@ -72,6 +72,21 @@ class Producto(db.Model):
         db.session.delete(cat)
         db.session.commit()
 
+    def consultarFoto(self, id):
+        return self.consultaIndividual(id).foto
+
+    def consultaIndividuall(self,id):
+        return Producto.query.get(id)
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def eliminacionLogica(self, id):
+        tar = self.consultaIndividual(id)
+        tar.estatus = 'Inactivo'
+        tar.editar()
+
 class Usuario(UserMixin,db.Model):
     __tablename__='Usuarios'
     idUsuario=Column(Integer,primary_key=True)
