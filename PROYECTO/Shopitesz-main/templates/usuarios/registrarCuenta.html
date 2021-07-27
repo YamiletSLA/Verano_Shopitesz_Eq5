@@ -8,7 +8,7 @@
 <br>
     <div class="caja text-center" ><span style="font-color: #FFFFFF; font-size: 20pt; FONT-FAMILY: Helvetica;">Registro de Usuarios</span></div>
 <br>
-    <form action="/Usuarios/agregar" method="post">
+    <form action="/Usuarios/agregar" method="post" onsubmit="return validar(this)">
         <div class="form-group">
             <label for="nombre">Nombre completo:</label>
             <input class="form-control form-control-lg" type="text" name="nombre" maxlength="50"  placeholder="Nombre Completo" required>
@@ -19,7 +19,12 @@
         </div>
         <div class="form-group">
             <label for="clave">Contraseña:</label>
-            <input type="password" name="password" maxlength="20" class="form-control" placeholder="Contraseña" required>
+            <input type="password" name="password" id="password" maxlength="20" class="form-control" placeholder="Contraseña" required>
+        </div>
+        <input type="checkbox" id="verPassword" onchange="verPasswords()"> Ver contraseña
+        <div class="form-group">
+            <label for="clave">Confirmar Password:</label>
+            <input type="password" name="passwordConfirmacion" id="passwordConfirmacion" maxlength="20" class="form-control" placeholder="Confirmar contraseña" required>
         </div>
         <div class="form-group">
             <label for="direccion">Dirección</label>
@@ -50,15 +55,22 @@
             <label class="radio-inline"><input type="radio" name="tipo" value="Administrador">Administrador</label>
         </div>
         {% endif %}
-        <button type="submit" class="btn btn-default2 mb-3">
+        <button type="submit" class="btn btn-primary mb-3">
             <span class="glyphicon glyphicon-floppy-disk"></span>
             Registrar
         </button>
-        <a href="/Usuarios/iniciarSesion" class="btn btn-default mb-3">
+        <a href="/Usuarios/iniciarSesion" class="btn btn-danger mb-3">
             <span class="glyphicon glyphicon-circle-arrow-left"></span>
             Regresar
         </a>
         <br>
         <br>
     </form>
+<div id="notificaciones" style="background-color:#FF0000">
+
+</div>
+{% endblock %}
+{% block scripts %}
+{{super()}}
+    <script src="{{url_for('static',filename='js/usuarios.js')}}"></script>
 {% endblock %}
