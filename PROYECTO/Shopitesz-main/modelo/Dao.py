@@ -266,3 +266,11 @@ class Carrito(db.Model):
         db.session.commit()
     def consultaGeneralCar(self,idUsuario):
         return self.query.filter(Carrito.idUsuario==idUsuario).all()
+
+    def consultaIndividuall(self,id):
+        return Carrito.query.get(id)
+
+    def eliminarProductoDeCarrito(self,id):
+        carrito=self.consultaIndividuall(id)
+        db.session.delete(carrito)
+        db.session.commit()
