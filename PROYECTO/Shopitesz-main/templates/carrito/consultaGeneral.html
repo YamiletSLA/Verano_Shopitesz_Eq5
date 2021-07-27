@@ -36,4 +36,7 @@
         {% endfor %}
     </table>
     </div>
+{% if current_user.is_authenticated and current_user.is_admin() %}
+<label>Debes iniciar sesión con otra cuenta</label>
+{% endif %}
 {% endblock %}

@@ -68,8 +68,8 @@ class Producto(db.Model):
         db.session.commit()
 
     def eliminar(self,id):
-        cat=self.consultaIndividuall(id)
-        db.session.delete(cat)
+        prod=self.consultaIndividuall(id)
+        db.session.delete(prod)
         db.session.commit()
 
     def consultarFoto(self, id):
@@ -169,21 +169,6 @@ class Usuario(UserMixin,db.Model):
 
 
 
-class Pedidos(db.Model):
-    __tablename__='Pedidos'
-    IDPEDIDO=Column(Integer,primary_key=True)
-    IDCOMPRADOR = Column(Integer, ForeignKey('Usuarios.idUsuario'))
-    IDVENDEDOR = Column(Integer, ForeignKey('Usuarios.idUsuario'))
-    IDTARJETA = Column(Integer, ForeignKey('Tarjetas.idTarjeta'))
-    PAGINAWEB = Column(String, nullable=False)
-    FECHAREGISTRO = Column(String, nullable=False)
-    FECHAATENCION = Column(String, nullable=False)
-    FECHARECEOCION = Column(String, nullable=False)
-    FECHACIERRE = Column(String, nullable=False)
-    TOTAL = Column(Float, nullable=False)
-    ESTATUS = Column(String, nullable=False)
-
-
 class Tarjetas(db.Model):
     __tablename__='tarjetas'
     idTarjeta=Column(Integer,primary_key=True)
@@ -274,3 +259,43 @@ class Carrito(db.Model):
         carrito=self.consultaIndividuall(id)
         db.session.delete(carrito)
         db.session.commit()
+
+class Pedido(db.Model):
+    __tablename__='pedidos'
+    idPedido=Column(Integer,primary_key=True)
+    idComprador=Column(Integer,ForeignKey('Usuarios.idUsuario'))
+    idVendedor=Column(Integer, ForeignKey('Usuarios.idUsuario'))
+    idTarjeta=Column(Integer, ForeignKey('Tarjetas.idTarjeta'))
+    fechaRegistro=Column(String, nullable=False)
+    fechaAtencion=Column(String, nullable=False)
+    fechaRecepcion=Column(String, nullable=False)
+    fechaCierre=Column(String, nullable=False)
+    total=Column(Float,nullable=False)
+    estatus = Column(String, nullable=False)
+    #usuario = relationship('Usuario', backref='pedidos', lazy='select')
+    #usuarioV = relationship('Usuario', backref='pedidos', lazy='select')
+    #pedidoT = relationship('Tarjetas', backref='pedidos', lazy='select')
+
+    def consultaPedidos(self):
+        return self.query.all()
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
+    def consultaIndividuall(self,id):
+        return Pedido.query.get(id)
+
+    def eliminar(self,id):
+        ped=self.consultaIndividuall(id)
+        db.session.delete(ped)
+        db.session.commit()
+
+    def eliminacionLogica(self,id):
+        paq = self.consultaIndividuall(id)
+        paq.estatus='Cancelado'
+        paq.editar()

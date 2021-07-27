@@ -3,13 +3,13 @@ from urllib import request
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias, Carrito
+from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias, Carrito, Pedido
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 import json
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://user_shopitesz:Shopit3sz.123@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 #Implementación de la gestion de usuarios con flask-login
@@ -368,13 +368,7 @@ def eliminarCategoria(id):
         return redirect(url_for('mostrar_login'))
 
 #Fin del crud de categorias
-# manejo de pedidos
-@app.route('/Pedidos')
-@login_required
-def consultarPedidos():
-    return "Pedidos del usuario:"+current_user.nombreCompleto+", tipo:"+current_user.tipo
 
-# fin del manejo de pedidos
 #manejo de errores
 @app.errorhandler(404)
 def error_404(e):
@@ -592,6 +586,18 @@ def eliminarProductoCarrito(id):
         return redirect(url_for('consultarCesta'))
     else:
         return redirect(url_for('mostrar_login'))
+
+#PEDIDOS
+@app.route("/Pedidos")
+@login_required
+def consultarPedidos():
+    if current_user.is_authenticated:
+        ped = Pedido()
+        return render_template('Pedidos/consultaGeneral.html',pedido=ped.consultaPedidos())
+    else:
+        return redirect(url_for('mostrar_login'))
+
+
 
 
 if __name__=='__main__':

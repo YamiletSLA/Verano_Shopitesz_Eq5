@@ -1,46 +1,37 @@
 {% extends 'comunes/base.html' %}
-{% block navbar %}
-    {{super()}}
-    {% include 'comunes/menu.html' %}
-{% endblock %}
 {% block contenido %}
     {{super()}}
-<br>
-    <div class="caja text-center" ><span style="font-color: #FFFFFF; FONT-FAMILY: Helvetica;">Registro de Usuarios</span></div>
-<br>
-    <form action="/Usuarios/agregar" method="post">
+    <h1 class="bg-primary text-center" onclick="alert('Se hizo click')" onclick="imprimirMsg()">Registro de Usuarios</h1>
+    <form action="/Usuarios/agregar" method="post" onsubmit="return validar(this)">
         <div class="form-group">
             <label for="nombre">Nombre completo:</label>
             <input class="form-control form-control-lg" type="text" name="nombre" maxlength="50"  placeholder="Nombre Completo" required>
         </div>
         <div class="form-group">
-            <label for="email">Correo:</label>
-            <input type="email" name="email" maxlength="50" class="form-control form-control-lg" placeholder="Email" required>
-        </div>
-        <div class="form-group">
-            <label for="clave">Contraseña:</label>
-            <input type="password" name="password" maxlength="20" class="form-control" placeholder="Contraseña" required>
+            <label for="email">Email:</label>
+            <input type="email" name="email" maxlength="50" class="form-control form-control-lg" required>
         </div>
         <div class="form-group">
             <label for="direccion">Dirección</label>
-            <input type="text" name="direccion" maxlength="60" class="form-control" placeholder="Dirección" required>
+            <input type="text" name="direccion" maxlength="60" class="form-control" required>
         </div>
         <div class="form-group">
-            <label for="telefono">Télefono:</label>
-            <input type="tel" name="telefono" maxlength="12" class="form-control" placeholder="Telefono" required>
+            <label for="clave">Password:</label>
+            <input type="password" name="password" id="password" maxlength="20" class="form-control" required>
         </div>
-        <div class="form-check">
-                    <label>Genero:</label><br>
-          <input class="form-check-input" type="radio"name="genero" value="F" checked>
-          <label class="form-check-label" for="Femenino">
-            Femenino
-          </label>
+        <input type="checkbox" id="verPassword" onchange="verPasswords()">Ver password
+        <div class="form-group">
+            <label for="clave">Confirmar Password:</label>
+            <input type="password" name="passwordConfirmacion" id="passwordConfirmacion" maxlength="20" class="form-control" required>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="genero" value="M">
-          <label class="form-check-label" for="Masculino">
-            Masculino
-          </label>
+        <div class="form-group">
+            <label for="telefono">Telefono:</label>
+            <input type="tel" name="telefono" maxlength="12" class="form-control" required>
+        </div>
+        <div class="radio">
+            <label>Genero:</label>
+            <label class="radio-inline"><input type="radio" name="genero" value="F" checked>Femenino</label>
+            <label class="radio-inline"><input type="radio" name="genero" value="M">Masculino</label>
         </div>
         {% if current_user.is_authenticated and current_user.is_admin() %}
         <div class="radio">
@@ -50,15 +41,20 @@
             <label class="radio-inline"><input type="radio" name="tipo" value="Administrador">Administrador</label>
         </div>
         {% endif %}
-        <a href="/Usuarios/iniciarSesion" class="btn btn-default mb-3" style="float:right">
-            <span class="glyphicon glyphicon-circle-arrow-left"></span>
-            Regresar
-        </a>
-        <button type="submit" class="btn btn-default2 mb-3" style="float:right">
+        <button type="submit" class="btn btn-primary mb-3">
             <span class="glyphicon glyphicon-floppy-disk"></span>
             Registrar
         </button>
-        <br>
-        <br>
+        <a href="/Usuarios/iniciarSesion" class="btn btn-danger mb-3">
+            <span class="glyphicon glyphicon-circle-arrow-left"></span>
+            Regresar
+        </a>
     </form>
+<div id="notificaciones" style="background-color:#FF0000">
+
+</div>
+{% endblock %}
+{% block scripts %}
+{{super()}}
+    <script src="{{url_for('static',filename='js/usuarios.js')}}"></script>
 {% endblock %}

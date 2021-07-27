@@ -1,0 +1,64 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+<div>
+    <h1 class="bg-primary text-center">Listado de Pedidos</h1>
+
+    <table class="table table-striped">
+        <th>ID</th>
+        <th>NOMBRE</th>
+        {% if current_user.is_authenticated and current_user.is_vendedor() %}
+        <th>ID COMPRADOR</th>
+        {% endif %}
+        {% if current_user.is_authenticated and current_user.is_comprador() %}
+        <th>ID VENDEDOR</th>
+        {% endif %}
+        <th>ID TARJETA</th>
+        <th>FECHA DE REGISTRO</th>
+        <th>FECHA DE ATENCIÓN</th>
+        <th>FECHA DE RECEPCIÓN</th>
+        <th>FECHA DE CIERRE</th>
+        <th>TOTAL </th>
+        <th>ESTATUS</th>
+        {% if current_user.is_authenticated and current_user.is_vendedor() %}
+        <th>EDITAR</th>
+        {% endif %}
+        {% for ped in pedidos %}
+            <tr>
+                <td>{{ped.idPedido}}</td>
+
+                <td>{{ped.idComprador}}</td>
+
+
+                <td>{{ped.idVendedor}}</td>
+
+                <td>{{ped.idTarjeta}}</td>
+                <td>{{ped.fechaRegistro}}</td>
+                <td>{{ped.fechaAtencion}}</td>
+                <td>{{ped.fechaRecepcion}}</td>
+                <td>{{ped.fechaCierre}}</td>
+                <td>{{ped.total}}</td>
+                <td>{{ped.estatus}}</td>
+
+                {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <td>
+                        <a href="/Pedidos/{{ped.idPedido}}">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    {% if current_user.is_authenticated and current_user.is_admin() %}
+    <a href="/Pedidos/nuevo" class="btn btn-success">
+         <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar Pedido
+    </a>
+    {% endif %}
+</div>
+{% endblock %}
