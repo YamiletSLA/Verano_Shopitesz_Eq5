@@ -279,6 +279,9 @@ class Pedido(db.Model):
     def consultaPedidos(self):
         return self.query.all()
 
+    def consultaGeneralP(self, id):
+        return self.query.filter(Pedido.idComprador == id and Pedido.idVendedor == id).all()
+
     def agregar(self):
         db.session.add(self)
         db.session.commit()
@@ -299,3 +302,20 @@ class Pedido(db.Model):
         paq = self.consultaIndividuall(id)
         paq.estatus='Cancelado'
         paq.editar()
+
+class DetallePedido(db.Model):
+    __tablename__ = 'detallepedidos'
+    idDetalle = Column(Integer, primary_key=True)
+    idPedido = Column(Integer, ForeignKey('pedidos.idPedido'))
+    idProducto = Column(Integer, ForeignKey('Productos.idProducto'))
+    precio = Column(Float, nullable=False)
+    cantidadPedida = Column(Integer, nullable=False)
+    cantidadEnviada = Column(Integer, nullable=False)
+    cantidadAceptada = Column(Integer, nullable=False)
+    cantidadRechazada = Column(Integer, nullable=False)
+    subtotal = Column(Float, nullable=False)
+    estatus = Column(String, nullable=False,default='Pendiente')
+    comentario = Column(String, nullable=False)
+
+    def consultaDP(self):
+        return self.query.all()

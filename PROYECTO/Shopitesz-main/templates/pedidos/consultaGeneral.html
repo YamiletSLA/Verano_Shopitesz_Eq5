@@ -10,13 +10,11 @@
 
     <table class="table table-striped">
         <th>ID</th>
-        <th>NOMBRE</th>
-        {% if current_user.is_authenticated and current_user.is_vendedor() %}
         <th>ID COMPRADOR</th>
-        {% endif %}
-        {% if current_user.is_authenticated and current_user.is_comprador() %}
+
+
         <th>ID VENDEDOR</th>
-        {% endif %}
+
         <th>ID TARJETA</th>
         <th>FECHA DE REGISTRO</th>
         <th>FECHA DE ATENCIÓN</th>
@@ -27,15 +25,11 @@
         {% if current_user.is_authenticated and current_user.is_vendedor() %}
         <th>EDITAR</th>
         {% endif %}
-        {% for ped in pedidos %}
+        {% for ped in pedido %}
             <tr>
                 <td>{{ped.idPedido}}</td>
-
                 <td>{{ped.idComprador}}</td>
-
-
                 <td>{{ped.idVendedor}}</td>
-
                 <td>{{ped.idTarjeta}}</td>
                 <td>{{ped.fechaRegistro}}</td>
                 <td>{{ped.fechaAtencion}}</td>
@@ -43,7 +37,6 @@
                 <td>{{ped.fechaCierre}}</td>
                 <td>{{ped.total}}</td>
                 <td>{{ped.estatus}}</td>
-
                 {% if current_user.is_authenticated and current_user.is_admin() %}
                     <td>
                         <a href="/Pedidos/{{ped.idPedido}}">

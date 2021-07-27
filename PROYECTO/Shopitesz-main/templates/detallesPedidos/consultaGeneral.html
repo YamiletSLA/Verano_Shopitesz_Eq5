@@ -1,0 +1,41 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+<div>
+    <h1 class="caja text-center">Detalles de Pedidos</h1>
+
+    <table class="table table-striped">
+        <th>ID</th>
+        <th>PEDIDO</th>
+        <th>PRODUCTO</th>
+        <th>PRECIO</th>
+        <th>CANTIDAD PEDIDA</th>
+        <th>CANTIDAD ENVIADA</th>
+        <th>CANTIDAD ACEPTADA</th>
+        <th>CANTIDAD RECHAZADA</th>
+        <th>SUBTOTAL </th>
+        <th>ESTATUS</th>
+        <th>COMENTARIO</th>
+        {% for dp in detped %}
+            <tr>
+                <td>{{dp.idDetalle}}</td>
+                <td>{{dp.idPedido}}</td>
+                <td>{{dp.idProducto}}</td>
+                <td>{{dp.precio}}</td>
+                <td>{{dp.cantidadPedida}}</td>
+                <td>{{dp.cantidadEnviada}}</td>
+                <td>{{dp.cantidadAceptada}}</td>
+                <td>{{dp.cantidadRechazada}}</td>
+                <td>{{dp.sutotal}}</td>
+                <td>{{dp.estatus}}</td>
+                <td>{{dp.comentario}}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

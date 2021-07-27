@@ -7,9 +7,15 @@
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="/Categorias">CATEGORIAS</a></li>
+          {% if current_user.is_authenticated  %}
           <li><a href="/productos">PRODUCTOS</a></li>
-          <li><a href="/productos/categorias">PRODUCTOS POR CATEGORIA</a></li>
+          {% endif %}
+          {% if current_user.is_authenticated and current_user.is_comprador() %}
+          <li><a href="/productos/categorias">LISTADO DE PRODUCTOS</a></li>
+          {% endif %}
+          {% if current_user.is_authenticated and current_user.is_admin() %}
           <li><a href="/Paqueterias">PAQUETERIAS</a></li>
+          {% endif %}
         </ul>
       </li>
       {% if current_user.is_authenticated %}
@@ -19,7 +25,9 @@
         <ul class="dropdown-menu">
 
           <li><a href="/Pedidos">SEGUIMIENTO</a></li>
+          <li><a href="/Pedidos/detallespedidos">DETALLES DE PEDIDO</a></li>
         </ul>
+
       </li>
       {% endif %}
       {% if current_user.is_authenticated and current_user.is_admin() %}
@@ -36,7 +44,9 @@
       {% endif %}
     </ul>
     <ul class="nav navbar-nav navbar-right">
+            {% if current_user.is_authenticated and current_user.is_comprador() %}
             <li><a href="/carrito"><span class="glyphicon glyphicon-shopping-cart"></span> CARRITO</a></li>
+            {% endif %}
             {% if not current_user.is_authenticated %}
             <li style="float:right"><a href="/Usuarios/iniciarSesion"><span class="glyphicon glyphicon-log-in"></span> Iniciar Sesion</a></li>
             {% else %}

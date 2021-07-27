@@ -3,7 +3,7 @@ from urllib import request
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias, Carrito, Pedido
+from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias, Carrito, Pedido, DetallePedido
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 import json
 
@@ -467,9 +467,11 @@ def eliminarTarjeta(id):
 @app.route('/Paqueterias')
 @login_required
 def consultarPaqueterias():
-   paq=Paqueterias()
-   return render_template('/paqueterias/consultaP.html',paqueterias = paq.consultaPaqueterias())
-
+    if current_user.is_authenticated and current_user.is_admin():
+        paq=Paqueterias()
+        return render_template('/paqueterias/consultaP.html',paqueterias = paq.consultaPaqueterias())
+    else:
+        return render_template('usuarios/login.html')
 
 @app.route('/Paqueterias/nueva')
 @login_required
@@ -574,10 +576,25 @@ def consultarCesta():
     else:
         return redirect(url_for('mostrar_login'))
 
-#Pedidos
+@app.route('/carrito/eliminar/<int:id>')
+@login_required
+def eliminarDeCarrito(id):
+    if current_user.is_authenticated and current_user.is_comprador():
+        try:
+            carrito=Carrito()
+            #paq.eliminacionLogica(id)
+            carrito.eliminarProductoDeCarrito(id)
+            flash(' eliminad con exito')
+        except:
+            flash('Error al eliminar ')
+        return redirect(url_for('consultarCesta'))
+    else:
+        return redirect(url_for('mostrar_login'))
+
 
 
 #PEDIDOS
+
 @app.route("/Pedidos")
 @login_required
 def consultarPedidos():
@@ -586,10 +603,25 @@ def consultarPedidos():
         return render_template('Pedidos/consultaGeneral.html',pedido=ped.consultaPedidos())
     else:
         return redirect(url_for('mostrar_login'))
+'''
+@app.route('/Pedidos')
+@login_required
+def consultarPedidos(id):
+    pedido=Pedido()
+    if current_user.is_authenticated:
+     return render_template("pedidos/consultaGeneral.html",pedido=pedido.consultaGeneralP(id))
+    else:
+        return redirect(url_for('mostrar_login'))
+'''
+# manejo de detallesPedidos
+@app.route('/Pedidos/detallespedidos')
+@login_required
+def consultarDP():
+    dp=DetallePedido()
+    return render_template("/detallesPedidos/consultaGeneral.html",detped=dp.consultaDP())
 
 
-
-
+# fin del manejo de detallesPedidos
 if __name__=='__main__':
     db.init_app(app)#Inicializar la BD - pasar la configuración de la url de la BD
     app.run(debug=True)
