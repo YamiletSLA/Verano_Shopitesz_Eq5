@@ -22,8 +22,6 @@ function llenarTabla(datos){
         var tr=document.createElement("tr");
         var prod=productos[i];
         for (propiedad in prod){
-            //alert(propiedad);
-            //alert(prod[propiedad]);
             var td=document.createElement("td");
             var texto=document.createTextNode(prod[propiedad]);
             td.appendChild(texto);
@@ -40,7 +38,6 @@ function llenarTabla(datos){
 }
 function eliminarTabla(){
     var tabla=document.getElementById("datos");
-    //alert(tabla.rows.length);
     for(i=tabla.rows.length-1;i>0;i--){
 		tabla.removeChild(tabla.rows[i]);
 	}

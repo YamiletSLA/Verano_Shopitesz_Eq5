@@ -549,6 +549,7 @@ def eliminarPaqueteria(id):
     else:
         return redirect(url_for('mostrar_login'))
 
+#Carrito
 @app.route('/carrito/agregar/<data>',methods=['get'])
 def agregarProductoCarrito(data):
     msg=''
@@ -573,19 +574,8 @@ def consultarCesta():
     else:
         return redirect(url_for('mostrar_login'))
 
-@app.route('/carrito/eliminar/<int:id>')
-@login_required
-def eliminarProductoCarrito(id):
-    if current_user.is_authenticated and current_user.is_comprador():
-        try:
-            carrito=Carrito()
-            carrito.eliminarProductoDeCarrito(id)
-            flash('Producto eliminado con exito')
-        except:
-            flash('Error al eliminar el producto')
-        return redirect(url_for('consultarCesta'))
-    else:
-        return redirect(url_for('mostrar_login'))
+#Pedidos
+
 
 #PEDIDOS
 @app.route("/Pedidos")
