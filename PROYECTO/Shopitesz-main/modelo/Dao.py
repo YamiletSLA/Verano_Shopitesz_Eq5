@@ -266,3 +266,31 @@ class Carrito(db.Model):
         db.session.commit()
     def consultaGeneralCar(self,idUsuario):
         return self.query.filter(Carrito.idUsuario==idUsuario).all()
+
+class Pedidos(db.Model):
+    _tablename_='Pedido'
+    idPedido=Column(Integer,primary_key=True)
+    idComprador = Column(Integer, ForeignKey('Usuarios.idUsuario'))
+    idVendedor = Column(Integer, ForeignKey('Usuarios.idUsuario'))
+    idTarjeta = Column(Integer, ForeignKey('Tarjetas.idTarjeta'))
+    fechaRegistro = Column(Date, default=datetime.date.today())
+    fechaAtencion = Column(Date, default=datetime.date.today())
+    fechaRecepcion = Column(Date, default=datetime.date.today())
+    fechaCierre = Column(Date, default=datetime.date.today())
+    total=Column(Float, nullable=False)
+    estatus = Column(String, nullable=False, default='Pendiente')
+    tarjeta = relationship('Tarjeta', backref='Pedido', lazy='select')
+    usuario = relationship('Usuario', backref='Pedido', lazy='select')
+
+class DetallePedidos(db.Model):
+    _tablename_='DetallePedido'
+    idDetalle=Column(Integer,primary_key=True)
+    idProducto=Column(Integer,ForeignKey('Productos.idProductos'))
+    precio=Column(Float, nullable=False)
+    cantidadPedida=Column(Integer, nullable=False)
+    cantidadEnviada=Column(Integer, nullable=False)
+    cantidadAceptada=Column(Integer,nullable=False)
+    cantidadRechazada=Column(Integer,nullable=False)
+    subtotal=Column(Float, nullable=False)
+    estatus=Column(String, nullable=False, default='Pendiente')
+    comentario=Column(String, nullable=True)

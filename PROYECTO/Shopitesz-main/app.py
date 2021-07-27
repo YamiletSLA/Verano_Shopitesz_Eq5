@@ -555,6 +555,7 @@ def eliminarPaqueteria(id):
     else:
         return redirect(url_for('mostrar_login'))
 
+#Carrito
 @app.route('/carrito/agregar/<data>',methods=['get'])
 def agregarProductoCarrito(data):
     msg=''
@@ -578,6 +579,8 @@ def consultarCesta():
         return render_template('carrito/consultaGeneral.html',cesta=carrito.consultaGeneralCar(current_user.idUsuario))
     else:
         return redirect(url_for('mostrar_login'))
+
+#Pedidos
 
 
 
