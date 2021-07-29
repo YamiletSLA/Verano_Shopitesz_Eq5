@@ -619,11 +619,12 @@ def editarDetallesPedidos(id):
         return render_template("detallesPedidos/editarDetallespedido.html",detallepedido=detallepedido.consultaIndividual(id))
     else:
         return redirect(url_for('mostrar_login'))
+'''
 
 @app.route('/Pedidos/verpedidos/detallespedidos/editarPedidos',methods=['POST'])
 @login_required
-def modDetallesPedidos():
-    if current_user.is_authenticated and current_user.is_comprador() or current_user.is_vendedor():
+def editarDetallesPedidos():
+    if current_user.is_authenticated:
         try:
             detallepedido=DetallePedido()
             detallepedido.idDetalle = request.form['idDetalle']
@@ -642,8 +643,33 @@ def modDetallesPedidos():
             return redirect(url_for('mostrar_login'))
         except:
             flash('! Error al editar Detalles Pedido ')
+'''
+@app.route('/Pedidos/editar',methods=['post'])
+@login_required
+def editarPedido():
+    if current_user.is_authenticated and current_user.is_vendedor():
+        try:
+            ped=Pedido()
+            ped.idPedido=request.form['idPedido']
+            ped.idComprador=request.form['idComprador']
+            ped.idVendedor=request.form['idVendedor']
+            ped.idTarjeta=request.form['idTarjeta']
+            ped.fechaRegistro = request.form['fechaRegistro']
+            ped.fechaAtencion = request.form['fechaAtencion']
+            ped.fechaRecepcion = request.form['fechaRecepcion']
+            ped.fechaCierre = request.form['fechaCierre']
+            ped.total = request.form['total']
+            ped.estatus = request.form['estatus']
+            ped.editar()
+            flash('¡ Pedido editado con exito !')
+        except:
+            flash('¡ Error al editar el pedido !')
 
-@app.route('/Pedidos/editarPedidos/<int:id>',methods=['post'])
+        return redirect(url_for('consultarPedidos'))
+    else:
+        return redirect(url_for('mostrar_login'))
+'''
+@app.route('/Pedidos/verpedidos/editarPedidos/<int:id>',methods=['post'])
 @login_required
 def editarPedidos():
     if current_user.is_authenticated:
@@ -660,13 +686,13 @@ def editarPedidos():
             ped.total = request.form['total']
             ped.estatus = request.form['ESTATUS']
             ped.editar()
-            flash('! Pedido editado con exito')
-        except:
-            flash('! Error al editar el pedido ')
-        return redirect(url_for('mostrar_login'))
+            flash('¡  Pedido editada con exito !')
+          except:
+            flash('¡ Error al editar el pedido!')
+            return redirect(url_for('consultarPedidos'))
     else:
-         return redirect(url_for('mostrar_login'))
-
+        return redirect(url_for('mostrar_login'))
+'''
 
 # manejo de detallesPedidos
 @app.route('/Pedidos/detallespedidos')

@@ -10,39 +10,39 @@
     <form action="/Pedidos/editarPedidos" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="idPedido"> id Pedido: </label>
-            <input type="number" name="idPedido"  required class="form-control" value="{{pedido.idPedido }}" readonly class="form-control">
+            <input type="number" name="idPedido"  required class="form-control" value="{{ped.idPedido }}" readonly class="form-control">
         </div>
          <div class="form-group">
             <label for="idComprador"> id Comprador: </label>
-            <input type="number" name="idComprador"  required class="form-control" value="{{pedido.idComprador}}" readonly class="form-control">
+            <input type="number" name="idComprador"  required class="form-control" value="{{ped.idComprador}}" readonly class="form-control">
         </div>
          <div class="form-group">
             <label for="idVendedor"> id Vendedor: </label>
-            <input type="number" name="idVendedor"  required class="form-control" value="{{pedido.idVendedor}}" readonly class="form-control">
+            <input type="number" name="idVendedor"  required class="form-control" value="{{ped.idVendedor}}" readonly class="form-control">
         </div>
         <div class="form-group">
             <label for="idTarjeta"> id Tarjeta: </label>
-            <input type="number" name="idTarjeta"  required class="form-control" value="{{pedido.idTarjeta}}" readonly class="form-control">
+            <input type="number" name="idTarjeta"  required class="form-control" value="{{ped.idTarjeta}}" readonly class="form-control">
         </div>
         <div class="form-group">
             <label for="fechaRegistro">fecha de Registro:</label>
-            <input type="date" name="fechaRegistro"  required maxlength="100" value="{{pedido.fechaRegistro}}" class="form-control">
+            <input type="date" name="fechaRegistro"  required maxlength="100" value="{{ped.fechaRegistro}}" class="form-control">
         </div>
         <div class="form-group">
             <label for="fechaAtencion">fecha de Atencion:</label>
-            <input type="date" name="fechaAtencion" required maxlength="100" value="{{pedido.fechaAtencion}}" class="form-control">
+            <input type="date" name="fechaAtencion" required maxlength="100" value="{{ped.fechaAtencion}}" class="form-control">
         </div>
         <div class="form-group">
             <label for="fechaRecepcion">fecha de Recepcion:</label>
-            <input type="date" name="fechaRecepcion" required maxlength="100" value="{{pedido.fechaRecepcion}}" class="form-control">
+            <input type="date" name="fechaRecepcion" required maxlength="100" value="{{ped.fechaRecepcion}}" class="form-control">
         </div>
         <div class="form-group">
             <label for="fechaCierre">fecha de Cierre:</label>
-            <input type="date" name="fechaCierre" required  maxlength="100" value="{{pedido.fechaCierre}}" class="form-control">
+            <input type="date" name="fechaCierre" required  maxlength="100" value="{{ped.fechaCierre}}" class="form-control">
         </div>
          <div class="form-group">
             <label for="total">total:</label>
-            <input type="numbre" name="total" required maxlength="200" value="{{pedido.total}}" class="form-control">
+            <input type="numbre" name="total" required maxlength="200" value="{{ped.total}}" class="form-control">
         </div>
         <div class="form-control">
             <label for="estatus">Estatus:</label>
