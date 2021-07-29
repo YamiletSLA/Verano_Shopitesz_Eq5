@@ -1,0 +1,84 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+<div>
+    <h1 class="bg-primary text-center">Edición de Detalles Pedidos</h1>
+    <form action="/Pedidos/verpedidos/detallespedidos/editarPedidos" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="idDetalle"> id Detalle: </label>
+            <input type="number" name="idDetalle"  required class="form-control" value="{{detallepedido.idDetalle }}" readonly class="form-control">
+        </div>
+         <div class="form-group">
+            <label for="idPedido"> id Pedido: </label>
+            <input type="number" name="idPedido"  required class="form-control" value="{{detallepedido.idPedido}}" readonly class="form-control">
+        </div>
+         <div class="form-group">
+            <label for="idProducto"> id Producto: </label>
+            <input type="number" name="idProducto"  required class="form-control" value="{{detallepedido.idProducto}}" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="precio"> precio: </label>
+            <input type="number" name="precio"  required class="form-control" value="{{detallepedido.precio}}"  class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="cantidadPedida">cantidad Pedida:</label>
+            <input type="number" name="cantidadPedida"  required maxlength="100" value="{{detallepedido.cantidadPedida}}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="cantidadEnviada">cantidad Enviada:</label>
+            <input type="number" name="cantidadEnviada"  required maxlength="100" value="{{detallepedido.cantidadEnviada}}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="cantidadAceptada">cantidad Aceptada:</label>
+            <input type="number" name="cantidadAceptada"  required maxlength="100" value="{{detallepedido.cantidadAceptada}}" class="form-control">
+        </div>
+         <div class="form-group">
+            <label for="cantidadRechazada">cantidad Rechazada:</label>
+            <input type="number" name="cantidadRechazada"  required maxlength="100" value="{{detallepedido.cantidadRechazada}}" class="form-control">
+        </div>
+         <div class="form-group">
+            <label for="subtotal">subtotal:</label>
+            <input type="number" name="subtotal"  required maxlength="100" value="{{detallepedido.subtotal}}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="comentario">comentario:</label>
+            <input type="text" name="comentario" required maxlength="100" value="{{detallepedido.comentario}}" class="form-control">
+        </div>
+        <div class="form-control">
+            <label for="estatus">estatus:</label>
+            <select name="estatus">
+            {% if detallepedido.estatus=='Activo' %}
+                <option selected>Activo</option>
+                <option>Pendiente</option>
+            {% else %}
+                <option>Activo</option>
+                <option selected>Pendiente</option>
+            {% endif %}
+            </select>
+        </div>
+
+           <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Guardar
+            </button>
+            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#eliminar">
+                <span class="glyphicon glyphicon-trash"></span>
+                Eliminar
+            </a>
+            <a href="/Pedidos/verpedidos/{{current_user.idUsuario}}" class="btn btn-info">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Cancelar
+            </a>
+    </form>
+
+
+
+
+
+</div>
+
+{% endblock %}

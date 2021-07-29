@@ -1,0 +1,46 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+
+    <h1 class="bg-primary text-center">Detalles del pedido</h1>
+    <table class="table table-bordered table-hover justify-content-center" id="tablametodos">
+        <th>ID DETALLE DE PEDIDO</th>
+        <th>ID DEL PEDIDO</th>
+        <TH>NOMBRE DEL PRODUCTO</TH>
+        <th>PRECIO</th>
+        <th>CANTIDAD PEDIDA</th>
+        <th>CANTIDAD ENVIADA</th>
+        <th>CANTIDAD ACEPTADA</th>
+        <th>CANTIDAD RECHAZADA</th>
+        <th>CANTIDAD SUBTOTAL</th>
+        <th>ESTATUS</th>
+        <th>COMENTARIO</th>
+        <th>EDITAR</th>
+        {% for detped in detallepedido %}
+            <tr>
+                <td>{{detped.idDetalle}}</td>
+                <td>{{detped.idPedido}}</td>
+                <td>{{detped.producto.nombre}}</td>
+                <td>{{detped.precio}}</td>
+                <td>{{detped.cantidadPedida}}</td>
+                <td>{{detped.cantidadEnviada}}</td>
+                <td>{{detped.cantidadAceptada}}</td>
+                <td>{{detped.cantidadRechazada}}</td>
+                <td>{{detped.subtotal}}</td>
+                <td>{{detped.estatus}}</td>
+                <td>{{detped.comentario}}</td>
+                 <td>
+                        <a href="/Pedidos/verpedidos/detallespedidos/en/{{detped.idDetalle}}">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                 </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+{% endblock %}

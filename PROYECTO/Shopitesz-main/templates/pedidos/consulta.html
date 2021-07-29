@@ -1,0 +1,59 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+<div>
+    <h1 class="bg-primary text-center">Pedidos</h1>
+    <table  class="table table-bordered" id="tablametodos">
+        <th style="text-align: center;">ID PEDIDO</th>
+        <th style="text-align: center;">ID COMPRADOR</th>
+        <th style="text-align: center;">ID VENDEDOR</th>
+        <th style="text-align: center;">ID TARJETA</th>
+        <th style="text-align: center;">FECHA DE REGISTRO</th>
+        <th style="text-align: center;">FECHA DE ATENCION</th>
+        <th style="text-align: center;">FECHA DE CIERRE</th>
+        <th style="text-align: center;">FECHA DE RECEPCION</th>
+        <th style="text-align: center;">TOTAL</th>
+        <th style="text-align: center;">ESTATUS</th>
+        <th style="text-align: center;">DETALLES</th>
+        <th style="text-align: center;">EDITAR</th>
+        {% for ped in pedido %}
+            <tr style="text-align: center;">
+                <td>{{ped.idPedido}}</td>
+                <td>{{ped.idComprador}}</td>
+                <td>{{ped.idVendedor}}</td>
+                <td>{{ped.idTarjeta}}</td>
+                <td>{{ped.fechaRegistro}}</td>
+                <td>{{ped.fechaAtencion}}</td>
+                <td>{{ped.fechaRecepcion}}</td>
+                <td>{{ped.fechaCierre}}</td>
+                <td>{{ped.total}}</td>
+                <td>{{ped.estatus}}</td>
+                {% if current_user.is_authenticated %}
+                    <td>
+                        <a href="/Pedidos/verpedidos/detallespedidos/{{ped.idPedido}}">
+                            <span  class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                    </td>
+                <td>
+                        <a  href="/Pedidos/editarPedidos/{{ped.idPedido}}">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                 </td>
+                {% endif %}
+
+            </tr>
+        {% endfor %}
+        <td>
+                    {% if current_user.is_authenticated and current_user.is_vendedor() %}
+                    <a href="/Pedidos/{{ped.idPedido}}">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    {% endif %}
+                </td>
+    </table>
+</div>
+{% endblock %}

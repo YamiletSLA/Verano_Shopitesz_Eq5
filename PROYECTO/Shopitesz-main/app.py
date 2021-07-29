@@ -594,31 +594,86 @@ def eliminarDeCarrito(id):
 
 
 #PEDIDOS
-
 @app.route("/Pedidos")
 @login_required
 def consultarPedidos():
     if current_user.is_authenticated:
         ped = Pedido()
-        return render_template('Pedidos/consultaGeneral.html',pedido=ped.consultaPedidos())
+        return render_template('Pedidos/consulta.html',pedido=ped.consultaPedidos())
     else:
         return redirect(url_for('mostrar_login'))
-'''
-@app.route('/Pedidos')
+
+
+@app.route('/Pedidos/verpedidos/detallespedidos/<int:id>')
 @login_required
-def consultarPedidos(id):
-    pedido=Pedido()
-    if current_user.is_authenticated:
-     return render_template("pedidos/consultaGeneral.html",pedido=pedido.consultaGeneralP(id))
+def verDetallesPedido(id):
+    detallepedido=DetallePedido()
+    if current_user.is_authenticated and current_user.is_comprador() or current_user.is_vendedor():
+     return render_template("/detallesPedidos/consultaDetallespedido.html",detallepedido=detallepedido.consultaGeneral())
+
+@app.route('/Pedidos/verpedidos/detallespedidos/en/<int:id>')
+@login_required
+def editarDetallesPedidos(id):
+    detallepedido=DetallePedido()
+    if current_user.is_authenticated and current_user.is_comprador() or current_user.is_vendedor():
+        return render_template("detallesPedidos/editarDetallespedido.html",detallepedido=detallepedido.consultaIndividual(id))
     else:
         return redirect(url_for('mostrar_login'))
-'''
+
+@app.route('/Pedidos/verpedidos/detallespedidos/editarPedidos',methods=['POST'])
+@login_required
+def modDetallesPedidos():
+    if current_user.is_authenticated and current_user.is_comprador() or current_user.is_vendedor():
+        try:
+            detallepedido=DetallePedido()
+            detallepedido.idDetalle = request.form['idDetalle']
+            detallepedido.idPedido = request.form['idPedido']
+            detallepedido.idProducto = request.form['idProducto']
+            detallepedido.precio = request.form['precio']
+            detallepedido.cantidadPedida = request.form['cantidadPedida']
+            detallepedido.cantidadEnviada = request.form['cantidadEnviada']
+            detallepedido.cantidadAceptada = request.form['cantidadAceptada']
+            detallepedido.cantidadRechazada = request.form['cantidadRechazada']
+            detallepedido.subtotal = request.form['subtotal']
+            detallepedido.comentario = request.form['comentario']
+            detallepedido.estatus = request.form['estatus']
+            detallepedido.editar()
+            flash('! Detalles Pedido editada con exito')
+            return redirect(url_for('mostrar_login'))
+        except:
+            flash('! Error al editar Detalles Pedido ')
+
+@app.route('/Pedidos/editarPedidos/<int:id>',methods=['post'])
+@login_required
+def editarPedidos():
+    if current_user.is_authenticated:
+        try:
+            ped=Pedido()
+            ped.idPedido = request.form['idPedido']
+            ped.idComprador = request.form['idComprador']
+            ped.idVendedor = request.form['idVendedor']
+            ped.idTarjeta = request.form['idTarjeta']
+            ped.fechaRegistro = request.form['fechaRegistro']
+            ped.fechaAtencion = request.form['fechaAtencion']
+            ped.fechaRecepcion = request.form['fechaRecepcion']
+            ped.fechaCierre = request.form['fechaCierre']
+            ped.total = request.form['total']
+            ped.estatus = request.form['ESTATUS']
+            ped.editar()
+            flash('! Pedido editado con exito')
+        except:
+            flash('! Error al editar el pedido ')
+        return redirect(url_for('mostrar_login'))
+    else:
+         return redirect(url_for('mostrar_login'))
+
+
 # manejo de detallesPedidos
 @app.route('/Pedidos/detallespedidos')
 @login_required
 def consultarDP():
     dp=DetallePedido()
-    return render_template("/detallesPedidos/consultaGeneral.html",detped=dp.consultaDP())
+    return render_template("/detallesPedidos/consulta.html",detped=dp.consultaDP())
 
 
 # fin del manejo de detallesPedidos

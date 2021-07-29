@@ -316,6 +316,17 @@ class DetallePedido(db.Model):
     subtotal = Column(Float, nullable=False)
     estatus = Column(String, nullable=False,default='Pendiente')
     comentario = Column(String, nullable=False)
+    producto = relationship('Producto',backref='DetallePedido',lazy='select')
 
     def consultaDP(self):
         return self.query.all()
+
+    def consultaGeneral(self):
+        return self.query.all()
+
+    def consultaIndividual(self,id):
+        return Pedido.query.get(id)
+
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
