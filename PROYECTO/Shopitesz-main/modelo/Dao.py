@@ -272,9 +272,6 @@ class Pedido(db.Model):
     fechaCierre=Column(String, nullable=False)
     total=Column(Float,nullable=False)
     estatus = Column(String, nullable=False)
-    #usuario = relationship('Usuario', backref='pedidos', lazy='select')
-    #usuarioV = relationship('Usuario', backref='pedidos', lazy='select')
-    #pedidoT = relationship('Tarjetas', backref='pedidos', lazy='select')
 
     def consultaPedidos(self):
         return self.query.all()

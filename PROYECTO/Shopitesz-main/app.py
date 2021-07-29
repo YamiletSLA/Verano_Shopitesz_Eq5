@@ -9,7 +9,7 @@ import json
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://user_shopitesz:Shopit3sz.123@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 #Implementación de la gestion de usuarios con flask-login
@@ -608,7 +608,7 @@ def consultarPedidos():
 @login_required
 def verDetallesPedido(id):
     detallepedido=DetallePedido()
-    if current_user.is_authenticated and current_user.is_comprador() or current_user.is_vendedor():
+    if current_user.is_authenticated:
      return render_template("/detallesPedidos/consultaDetallespedido.html",detallepedido=detallepedido.consultaGeneral())
 
 @app.route('/Pedidos/verpedidos/detallespedidos/en/<int:id>')
@@ -644,10 +644,20 @@ def editarDetallesPedidos():
         except:
             flash('! Error al editar Detalles Pedido ')
 '''
-@app.route('/Pedidos/editar',methods=['post'])
+
+@app.route('/Pedidos/editarPedidos/<int:id>')
+@login_required
+def modificarPed(id):
+    ped=Pedido()
+    if current_user.is_authenticated and current_user.is_comprador() or current_user.is_vendedor():
+        return render_template("pedidos/editarPedido.html",ped=ped.consultaIndividuall(id))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+@app.route('/Pedidos/editarPedidos',methods=['post'])
 @login_required
 def editarPedido():
-    if current_user.is_authenticated and current_user.is_vendedor():
+    if current_user.is_authenticated and current_user.is_vendedor() or current_user.is_admin():
         try:
             ped=Pedido()
             ped.idPedido=request.form['idPedido']
@@ -665,34 +675,9 @@ def editarPedido():
         except:
             flash('¡ Error al editar el pedido !')
 
-        return redirect(url_for('consultarPedidos'))
+        return redirect(url_for('consulta'))
     else:
         return redirect(url_for('mostrar_login'))
-'''
-@app.route('/Pedidos/verpedidos/editarPedidos/<int:id>',methods=['post'])
-@login_required
-def editarPedidos():
-    if current_user.is_authenticated:
-        try:
-            ped=Pedido()
-            ped.idPedido = request.form['idPedido']
-            ped.idComprador = request.form['idComprador']
-            ped.idVendedor = request.form['idVendedor']
-            ped.idTarjeta = request.form['idTarjeta']
-            ped.fechaRegistro = request.form['fechaRegistro']
-            ped.fechaAtencion = request.form['fechaAtencion']
-            ped.fechaRecepcion = request.form['fechaRecepcion']
-            ped.fechaCierre = request.form['fechaCierre']
-            ped.total = request.form['total']
-            ped.estatus = request.form['ESTATUS']
-            ped.editar()
-            flash('¡  Pedido editada con exito !')
-          except:
-            flash('¡ Error al editar el pedido!')
-            return redirect(url_for('consultarPedidos'))
-    else:
-        return redirect(url_for('mostrar_login'))
-'''
 
 # manejo de detallesPedidos
 @app.route('/Pedidos/detallespedidos')
