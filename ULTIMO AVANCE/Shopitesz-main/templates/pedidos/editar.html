@@ -5,7 +5,7 @@
 {% endblock %}
 {% block contenido %}
 <div>
-    <h1 class="bg-primary bg-lg text-center">Consulta de Pedidos</h1>
+    <h1 class="bg-primary bg-lg text-center">Consulta de Pedido</h1>
     <form action="/Pedidos/editar" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="idPedido">ID:</label>
@@ -39,10 +39,12 @@
             <label for="fechaRecepcion">FECHA DE RECEPCIÓN:</label>
             <input type="date" name="fechaRecepcion" class="form-control" value="{{ped.fechaRecepcion}}" >
         </div>
+        {% if current_user.is_authenticated and current_user.is_admin() or current_user.is_vendedor() %}
         <div class="form-group">
             <label for="total">TOTAL:</label>
             <input type="number" name="total" required maxlength="200" value="{{ped.total}}" class="form-control">
         </div>
+        {% endif %}
         <div class="form-group">
             <label for="estatus">ESTATUS:</label>
             <select name="estatus">

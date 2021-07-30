@@ -19,7 +19,7 @@
         <th style="text-align: center;">FECHA DE RECEPCIÓN</th>
         <th style="text-align: center;">TOTAL</th>
         <th style="text-align: center;">ESTATUS</th>
-        {% if current_user.is_authenticated and current_user.is_vendedor %}
+        {% if current_user.is_authenticated and current_user.is_vendedor() or current_user.is_admin() %}
         <th style="text-align: center;">DETALLES</th>
         <th style="text-align: center;">EDITAR</th>
         {% endif %}
@@ -35,7 +35,7 @@
                 <td>{{ped.fechaRecepcion}}</td>
                 <td>{{ped.total}}</td>
                 <td>{{ped.estatus}}</td>
-                {% if current_user.is_authenticated and current_user.is_vendedor %}
+                {% if current_user.is_authenticated and current_user.is_vendedor() or current_user.is_admin()%}
                     <td>
                         <a href="/Pedidos/verpedidos/detallespedidos">
                             <span  class="glyphicon glyphicon-eye-open"></span>
