@@ -1,0 +1,45 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+<div>
+    <h1 class="caja text-center">Listado de Tarjetas del usuario: {{current_user.nombreCompleto}}</h1>
+    {% if current_user.is_authenticated and current_user.is_admin() %}
+    <a href="/Categorias/nueva" class="btn btn-success">
+         <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar Categoria
+    </a>
+    {% endif %}
+    <table class="table table-condensed">
+        <th>NUMERO DE TARJETA</th>
+        <th>BANCO</th>
+        <th>ESTATUS</th>
+        <th>SALDO</th>
+        <th>EDITAR</th>
+        {% for tar in tarjetas %}
+        {% if tar.idUsuario == current_user.idUsuario %}
+            <tr>
+                <td>{{tar.noTarjeta}}</td>
+                <td>{{tar.Banco}}</td>
+                <td>{{tar.estatus}}</td>
+                <td>{{tar.saldo}}</td>
+                <td>
+                    <a href="/Tarjetas/{{tar.idTarjeta}}">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                </td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    {% if current_user.is_authenticated and current_user.is_comprador() %}
+    <a href="/Tarjetas/nueva" class="btn btn-success">
+         <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar Tarjeta
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

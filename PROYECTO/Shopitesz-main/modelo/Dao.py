@@ -260,24 +260,23 @@ class Carrito(db.Model):
         db.session.delete(carrito)
         db.session.commit()
 
-class Pedido(db.Model):
-    __tablename__='pedidos'
-    idPedido=Column(Integer,primary_key=True)
-    idComprador=Column(Integer,ForeignKey('Usuarios.idUsuario'))
-    idVendedor=Column(Integer, ForeignKey('Usuarios.idUsuario'))
-    idTarjeta=Column(Integer, ForeignKey('Tarjetas.idTarjeta'))
-    fechaRegistro=Column(String, nullable=False)
-    fechaAtencion=Column(String, nullable=False)
-    fechaRecepcion=Column(String, nullable=False)
-    fechaCierre=Column(String, nullable=False)
-    total=Column(Float,nullable=False)
-    estatus = Column(String, nullable=False)
+class DetallePedidos(db.Model):
+    __tablename__='detallepedidos'
+    idDetalle=Column(Integer,primary_key=True)
+    idPedido=Column(Integer,ForeignKey('Pedidos.idPedido'))
+    idProducto = Column(Integer, ForeignKey('Productos.idProducto'))
+    precio = Column(Float, nullable=False)
+    cantidadPedida=Column(Integer, nullable=False)
+    cantidadEnviada=Column(Integer, nullable=False)
+    cantidadAceptada = Column(Integer, nullable=False)
+    cantidadRechazada = Column(Integer, nullable=False)
+    subtotal = Column(Float, nullable=False)
+    estatus=Column(String, nullable=False)
+    comentario = Column(String, nullable=False)
+    producto = relationship('Producto',backref='DetallePedidos',lazy='select')
 
-    def consultaPedidos(self):
+    def consultaDetallesPedido(self):
         return self.query.all()
-
-    def consultaGeneralP(self, id):
-        return self.query.filter(Pedido.idComprador == id and Pedido.idVendedor == id).all()
 
     def agregar(self):
         db.session.add(self)
@@ -288,11 +287,11 @@ class Pedido(db.Model):
         db.session.commit()
 
     def consultaIndividuall(self,id):
-        return Pedido.query.get(id)
+        return DetallePedidos.query.get(id)
 
     def eliminar(self,id):
-        ped=self.consultaIndividuall(id)
-        db.session.delete(ped)
+        detped=self.consultaIndividuall(id)
+        db.session.delete(detped)
         db.session.commit()
 
     def eliminacionLogica(self,id):
@@ -300,30 +299,40 @@ class Pedido(db.Model):
         paq.estatus='Cancelado'
         paq.editar()
 
-class DetallePedido(db.Model):
-    __tablename__ = 'detallepedidos'
-    idDetalle = Column(Integer, primary_key=True)
-    idPedido = Column(Integer, ForeignKey('pedidos.idPedido'))
-    idProducto = Column(Integer, ForeignKey('Productos.idProducto'))
-    precio = Column(Float, nullable=False)
-    cantidadPedida = Column(Integer, nullable=False)
-    cantidadEnviada = Column(Integer, nullable=False)
-    cantidadAceptada = Column(Integer, nullable=False)
-    cantidadRechazada = Column(Integer, nullable=False)
-    subtotal = Column(Float, nullable=False)
-    estatus = Column(String, nullable=False,default='Pendiente')
-    comentario = Column(String, nullable=False)
-    producto = relationship('Producto',backref='DetallePedido',lazy='select')
-
-    def consultaDP(self):
-        return self.query.all()
+class Pedidos(db.Model):
+    __tablename__='Pedidos'
+    idPedido=Column(Integer,primary_key=True)
+    idComprador = Column(Integer, ForeignKey('Usuarios.idUsuario'))
+    idVendedor = Column(Integer, ForeignKey('Usuarios.idUsuario'))
+    idTarjeta = Column(Integer, ForeignKey('Tarjetas.idTarjeta'))
+    fechaRegistro = Column(String, nullable=False)
+    fechaAtencion = Column(String, nullable=False)
+    fechaRecepcion = Column(String, nullable=False)
+    fechaCierre = Column(String, nullable=False)
+    total = Column(Float, nullable=False)
+    estatus = Column(String, nullable=False)
 
     def consultaGeneral(self):
         return self.query.all()
+        #return self.query.filter(Categoria.estatus=='Activa').all()
 
-    def consultaIndividual(self,id):
-        return Pedido.query.get(id)
+    def consultaIndividuall(self,id):
+        return Pedidos.query.get(id)
+
+    def agregar(self):
+        db.session.add(self)
+        db.session.commit()
 
     def editar(self):
         db.session.merge(self)
         db.session.commit()
+
+    def eliminar(self,id):
+        ped=self.consultaIndividuall(id)
+        db.session.delete(ped)
+        db.session.commit()
+
+    def eliminacionLogica(self,id):
+        ped = self.consultaIndividuall(id)
+        ped.estatus='Cancelado'
+        ped.editar()

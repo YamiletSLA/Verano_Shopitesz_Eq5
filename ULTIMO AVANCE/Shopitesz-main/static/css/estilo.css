@@ -1,0 +1,82 @@
+h1{
+    color:black;
+    font-size:36px;
+    font-weight: bold;
+}
+h2{
+    color:black;
+    font-size:25px;
+    font-weight: bold;
+}h3{
+    color:black;
+    font-size:20px;
+    font-weight: bold;
+}
+
+.tituloHeader{
+    color:white;
+    font-size:46px;
+    font-weight:bold;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+#h1{
+    color:green;
+    font-size:15px;
+    font-weight:bold;
+}
+.linkButton{
+    background:red;
+    border:2px solid black;
+    text-decoration:none;
+}
+
+header{
+    background: black;
+    background-image: url('../img/Zorro.png');
+    background-size: contain;
+    background-repeat:no-repeat;
+    height: 50%;
+    margin: 0%;
+    padding-top:1%;
+    padding-bottom: 1%;
+    padding-left: 30%;
+}
+nav{
+    margin-top:0%;
+}
+body{
+    /*background-color:rgb(88, 63, 63);*/
+    background-image: url('../img/Fondo.jpg');
+    background-size: cover;
+    opacity: 0.8;
+}
+table{
+    background:white;
+}
+th{
+    background:black;
+    color:white;
+}
+carac.{
+    color: black;
+}
+.btn-default
+{
+background-color: #7C8683;
+color:#FFF;
+border-color: #7C8683;
+}
+.btn-default2
+{
+background-color: #010000;
+color:#FFF;
+border-color: #010000;
+}
+
+.caja
+{
+font-size: 36px;
+font-weight: bold;
+color: #ffffff;
+background:#212F3C
+}

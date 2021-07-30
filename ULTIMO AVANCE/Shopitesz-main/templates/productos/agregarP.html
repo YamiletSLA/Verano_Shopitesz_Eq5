@@ -1,0 +1,64 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div>
+    <h1 class="caja text-center">Registro de Productos</h1>
+    <form action="/Productos/agregar" method="post" enctype="multipart/form-data">
+       <!--
+       <div class="form-group">
+            <label>Categoria:</label>
+            <select id="categoria" onchange="obtenerID()" class="form-control">
+                {% for cat in categorias %}
+                {% if cat.estatus=='Activa' %}
+                    <option value="{{cat.idCategoria}}">{{cat.nombre}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+
+        </div> -->
+
+        <div class="form-group">
+            <label>Categoria:</label>
+            <input type="number" name="idCategoria" required maxlength="60" placeholder="id de la categoria del producto" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Nombre del producto" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Descripción:</label>
+            <input type="text" name="desc" required maxlength="200" placeholder="Descripción del producto" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Precio:</label>
+            <input type="text" name="precio" required maxlength="30" placeholder="Precio del producto" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Existencias:</label>
+            <input type="text" name="exist" required maxlength="200" placeholder="Existencias del producto" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Imagen:</label>
+            <input type="file" name="imagen" placeholder="Imagen de la Categoria" class="form-control">
+        </div>
+         <div class="form-group">
+            <label>Especificaciones:</label>
+            <input type="file" name="espe" placeholder="Especificaciones" class="form-control">
+        </div>
+            <button type="submit" class="btn btn-default2">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Agregar
+            </button>
+            <a href="/" class="btn btn-default">
+                <span class="glyphicon glyphicon-circle-arrow-left"></span>
+                Cancelar
+            </a>
+        <br>
+        <br>
+    </form>
+</div>
+
+{% endblock %}

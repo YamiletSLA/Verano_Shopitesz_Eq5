@@ -1,0 +1,76 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div>
+    <h1 class="caja bg-lg text-center">Edición de Paqueterías</h1>
+    <form action="/Paqueterias/editar" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="id">ID:</label>
+            <input type="number" name="id" value="{{paq.idPaqueteria}}" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Nombre de la Paquetería" class="form-control" value="{{paq.nombre}}">
+        </div>
+        <div class="form-group">
+            <label for="paginaWeb">Página Web:</label>
+            <input type="text" name="paginaWeb" required maxlength="60" placeholder="Página Web" class="form-control" value="{{paq.paginaWeb}}">
+        </div>
+        <div class="form-group">
+            <label for="precioGr">Precio:</label>
+            <input type="text" name="precioGr" required maxlength="60" placeholder="Precio" class="form-control" value="{{paq.precioGr}}">
+        </div>
+        <div class="form-group">
+            <label for="Telefono">Teléfono:</label>
+            <input type="text" name="telefono" required maxlength="60" placeholder="Teléfono" class="form-control" value="{{paq.Telefono}}">
+        </div>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Guardar
+            </button>
+            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#borrar">
+                <span class="glyphicon glyphicon-trash"></span>
+                Eliminar
+            </a>
+            <a href="/Paqueterias" class="btn btn-info">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Cancelar
+            </a>
+    </form>
+  </div>
+</div>
+</div>
+
+ <!-- Modal para ver el cuadro de dialogo de eliminar-->
+<div id="borrar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminación de Paqueterías</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿ Estas seguro de eliminar la paquetería:<b>{{paq.nombre}} ?</b> </p>
+      </div>
+      <div class="modal-footer">
+          <a class="btn btn-primary" href="/Paqueterias/eliminar/{{paq.idPaqueteria}}">Aceptar</a>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+{% endblock %}
+{% endblock %}
+{% block scripts %}
+{{super()}}
+    <script src="{{url_for('static',filename='js/paqueterias.js')}}"></script>
+{% endblock %}

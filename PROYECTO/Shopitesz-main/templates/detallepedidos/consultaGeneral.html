@@ -1,0 +1,54 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+<div>
+    <h1 class="caja text-center">Detalles</h1>
+    <table class="table table-condensed">
+        <th>ID</th>
+        <th>ID PEDIDO</th>
+        <th>ID PRODUCTO</th>
+        <th>PRECIO</th>
+        <th>CANTIDAD PEDIDA</th>
+        <th>CANTIDAD ENVIADA</th>
+        <th>CANTIDAD ACEPTADA</th>
+        <th>CANTIDAD RECHAZADA</th>
+        <th>SUBTOTAL</th>
+        <th>ESTATUS</th>
+        <th>COMENTARIO</th>
+
+        {% for detped in detallepedidos %}
+            <tr>
+                <td>{{detped.idDetalle}}</td>
+                <td>{{detped.idPedido}}</td>
+                <td>{{detped.producto.nombre}}</td>
+                <td>{{detped.precio}}</td>
+                <td>{{detped.cantidadPedida}}</td>
+                <td>{{detped.cantidadEnviada}}</td>
+                <td>{{detped.cantidadAceptada}}</td>
+                <td>{{detped.cantidadRechazada}}</td>
+                <td>{{detped.subtotal}}</td>
+                <td>{{detped.estatus}}</td>
+                <td>{{detped.comentario}}</td>
+                <td>
+                    {% if current_user.is_authenticated %}
+                    <a href="/Pedidos/verpedidos/detallespedidos/{{detped.idDetalle}}">
+
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if current_user.is_authenticated %}
+    <a href="/Pedidos/verpedidos/detallespedidos/nuevo" class="btn btn-success">
+         <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar Paquetería
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div>
+    <h1 class="caja bg-lg text-center">Edición de Detalle</h1>
+    <form action="/Pedidos/verpedidos/detallespedidos/editar" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="idDetalle">ID:</label>
+            <input type="number" name="idDetalle" value="{{detped.idDetalle}}" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="idPedido">ID DEL PEDIDO:</label>
+            <input type="number" name="idDetalle" value="{{detped.idDetalle}}" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="idProducto">PRODUCTO:</label>
+            <input type="number" name="idProducto" value="{{detped.producto.nombre}}" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="precio">PRECIO:</label>
+            <input type="number" name="precio" value="{{detped.precio}}" readonly class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="cantidadPedida">CANTIDAD PEDIDA:</label>
+            <input type="number" name="cantidadPedida"  class="form-control" value="{{detped.cantidadPedida}}">
+        </div>
+        <div class="form-group">
+            <label for="cantidadEnviada">CANTIDAD ENVIADA:</label>
+            <input type="number" name="cantidadEnviada"  value="{{detped.cantidadEnviada}}">
+        </div>
+         <div class="form-group">
+            <label for="cantidadAceptada">CANTIDAD ACEPTADA:</label>
+            <input type="number" name="cantidadAceptada"  class="form-control" value="{{detped.cantidadAceptada}}">
+        </div>
+        <div class="form-group">
+            <label for="cantidadRechazada">CANTIDAD RECHAZADA:</label>
+            <input type="number" name="cantidadRechazada"  class="form-control" value="{{detped.cantidadRechazada}}">
+        </div>
+        <div class="form-group">
+            <label for="subtotal">SUBTOTAL:</label>
+            <input type="number" name="subtotal"  class="form-control" value="{{detped.subtotal}}">
+        </div>
+        <div class="form-group">
+            <label for="estatus">ESTATUS:</label>
+            <input type="text" name="estatus" class="form-control" placeholder="Estatus" value="{{detped.estatus}}">
+        </div>
+        <div class="form-group">
+            <label for="comentario">COMENTARIO:</label>
+            <input type="text" name="comentario" class="form-control" placeholder="Comentario" value="{{detped.comentario}}">
+        </div>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Guardar
+            </button>
+            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#borrar">
+                <span class="glyphicon glyphicon-trash"></span>
+                Eliminar
+            </a>
+            <a href="/Pedidos/verpedidos/detallespedidos" class="btn btn-info">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Cancelar
+            </a>
+    </form>
+  </div>
+</div>
+</div>
+
+ <!-- Modal para ver el cuadro de dialogo de eliminar-->
+<div id="borrar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminación de DetallePedidos</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿ Estas seguro de eliminar:<b>{{detped.idDetalle}} ?</b> </p>
+      </div>
+      <div class="modal-footer">
+          <a class="btn btn-primary" href="/Pedidos/verpedidos/detallespedidos/eliminar/{{detped.idDetalle}}">Aceptar</a>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+{% endblock %}

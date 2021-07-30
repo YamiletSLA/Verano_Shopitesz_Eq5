@@ -3,13 +3,13 @@ from urllib import request
 
 from flask import Flask,render_template,request,redirect,url_for,flash,session,abort
 from flask_bootstrap import Bootstrap
-from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias, Carrito, Pedido, DetallePedido
+from modelo.Dao import db, Categoria, Producto, Usuario, Tarjetas, Paqueterias, Carrito, Pedidos, DetallePedidos
 from flask_login import login_required,login_user,logout_user,current_user,LoginManager
 import json
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://user_shopitesz:Shopit3sz.123@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 #Implementación de la gestion de usuarios con flask-login
@@ -368,7 +368,95 @@ def eliminarCategoria(id):
         return redirect(url_for('mostrar_login'))
 
 #Fin del crud de categorias
+# PEDIDOS
 
+@app.route('/Pedidos')
+def consultarPedidos():
+    ped=Pedidos()
+    return render_template('pedidos/consultaGeneral.html',pedidos=ped.consultaGeneral())
+
+@app.route('/Pedidos/agregar',methods=['post'])
+@login_required
+def agregarPedidos():
+    try:
+        if current_user.is_authenticated:
+            if current_user.is_authenticated:
+                try:
+                    ped=Pedidos()
+                    ped.idComprador=request.form['idComprador']
+                    ped.idVendedor = request.form['idVendedor']
+                    ped.idTarjeta = request.form['idTarjeta']
+                    ped.fechaRegistro = request.form['fechaRegistro']
+                    ped.fechaAtencion = request.form['fechaAtencion']
+                    ped.fechaCierre = request.form['fechaCierre']
+                    ped.fechaRecepcion = request.form['fechaRecepcion']
+                    ped.total = request.form['total']
+                    ped.estatus='Pendiente'
+                    ped.agregar()
+                    flash('¡ Pedido agregado con exito !')
+                except:
+                    flash('¡ Error al agregar el pedido !')
+                return redirect(url_for('consultarPedidos'))
+            else:
+                abort(404)
+
+        else:
+            return redirect(url_for('mostrar_login'))
+    except:
+        abort(500)
+
+
+@app.route('/Pedidos/<int:id>')
+@login_required
+def consultarPedido(id):
+    if current_user.is_authenticated:
+        ped=Pedidos()
+        return render_template('pedidos/editar.html',ped=ped.consultaIndividuall(id))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+
+@app.route('/Pedidos/editar',methods=['POST'])
+@login_required
+def editarPedido():
+    if current_user.is_authenticated:
+        try:
+            ped=Pedidos()
+            ped.idPedido = request.form['idPedido']
+            ped.idComprador = request.form['idComprador']
+            ped.idVendedor = request.form['idVendedor']
+            ped.idTarjeta = request.form['idTarjeta']
+            ped.fechaRegistro = request.form['fechaRegistro']
+            ped.fechaAtencion = request.form['fechaAtencion']
+            ped.fechaCierre = request.form['fechaCierre']
+            ped.fechaRecepcion = request.form['fechaRecepcion']
+            ped.total = request.form['total']
+            ped.estatus = request.form['estatus']
+            ped.editar()
+            flash('¡ Pedido editado con exito !')
+        except:
+            flash('¡ Error al editar el pedido !')
+
+        return redirect(url_for('consultarPedidos'))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+@app.route('/Pedidos/eliminar/<int:id>')
+@login_required
+def eliminarPedido(id):
+    if current_user.is_authenticated:
+        try:
+            ped=Pedidos()
+            ped.eliminar(id)
+            # ped.eliminacionLogica(id)
+            flash('Pedido eliminado con exito')
+        except:
+            flash('Error al eliminar el pedido')
+        return redirect(url_for('consultarPedidos'))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+# fin del manejo de pedidos
 #manejo de errores
 @app.errorhandler(404)
 def error_404(e):
@@ -467,11 +555,9 @@ def eliminarTarjeta(id):
 @app.route('/Paqueterias')
 @login_required
 def consultarPaqueterias():
-    if current_user.is_authenticated and current_user.is_admin():
-        paq=Paqueterias()
-        return render_template('/paqueterias/consultaP.html',paqueterias = paq.consultaPaqueterias())
-    else:
-        return render_template('usuarios/login.html')
+   paq=Paqueterias()
+   return render_template('/paqueterias/consultaP.html',paqueterias = paq.consultaPaqueterias())
+
 
 @app.route('/Paqueterias/nueva')
 @login_required
@@ -551,7 +637,6 @@ def eliminarPaqueteria(id):
     else:
         return redirect(url_for('mostrar_login'))
 
-#Carrito
 @app.route('/carrito/agregar/<data>',methods=['get'])
 def agregarProductoCarrito(data):
     msg=''
@@ -578,116 +663,114 @@ def consultarCesta():
 
 @app.route('/carrito/eliminar/<int:id>')
 @login_required
-def eliminarDeCarrito(id):
+def eliminarProductoCarrito(id):
     if current_user.is_authenticated and current_user.is_comprador():
         try:
             carrito=Carrito()
-            #paq.eliminacionLogica(id)
             carrito.eliminarProductoDeCarrito(id)
-            flash(' eliminad con exito')
+            flash('Producto eliminado con exito')
         except:
-            flash('Error al eliminar ')
+            flash('Error al eliminar el producto')
         return redirect(url_for('consultarCesta'))
     else:
         return redirect(url_for('mostrar_login'))
 
+#DETALLE PEDIDOS
 
-
-#PEDIDOS
-@app.route("/Pedidos")
+@app.route('/Pedidos/verpedidos/detallepedidos')
 @login_required
-def consultarPedidos():
+def consultarDetallePedidos():
+   detped=DetallePedidos()
+   return render_template('/detallepedidos/consultaGeneral.html',detallepedidos = detped.consultaDetallesPedido())
+
+
+@app.route('/Pedidos/verpedidos/detallepedidos/nuevo')
+@login_required
+def nuevoDetallePedidos():
     if current_user.is_authenticated:
-        ped = Pedido()
-        return render_template('Pedidos/consulta.html',pedido=ped.consultaPedidos())
+            return render_template('detallepedidos/agregar.html')
     else:
-        return redirect(url_for('mostrar_login'))
+        abort(404)
 
-
-@app.route('/Pedidos/verpedidos/detallespedidos/<int:id>')
+@app.route('/Pedidos/verpedidos/detallepedidos/agregar',methods=['post'])
 @login_required
-def verDetallesPedido(id):
-    detallepedido=DetallePedido()
-    if current_user.is_authenticated:
-     return render_template("/detallesPedidos/consultaDetallespedido.html",detallepedido=detallepedido.consultaGeneral())
-
-@app.route('/Pedidos/verpedidos/detallespedidos/en/<int:id>')
-@login_required
-def editarDetallesPedidos(id):
-    detallepedido=DetallePedido()
-    if current_user.is_authenticated and current_user.is_comprador() or current_user.is_vendedor():
-        return render_template("detallesPedidos/editarDetallespedido.html",detallepedido=detallepedido.consultaIndividual(id))
-    else:
-        return redirect(url_for('mostrar_login'))
-'''
-
-@app.route('/Pedidos/verpedidos/detallespedidos/editarPedidos',methods=['POST'])
-@login_required
-def editarDetallesPedidos():
-    if current_user.is_authenticated:
-        try:
-            detallepedido=DetallePedido()
-            detallepedido.idDetalle = request.form['idDetalle']
-            detallepedido.idPedido = request.form['idPedido']
-            detallepedido.idProducto = request.form['idProducto']
-            detallepedido.precio = request.form['precio']
-            detallepedido.cantidadPedida = request.form['cantidadPedida']
-            detallepedido.cantidadEnviada = request.form['cantidadEnviada']
-            detallepedido.cantidadAceptada = request.form['cantidadAceptada']
-            detallepedido.cantidadRechazada = request.form['cantidadRechazada']
-            detallepedido.subtotal = request.form['subtotal']
-            detallepedido.comentario = request.form['comentario']
-            detallepedido.estatus = request.form['estatus']
-            detallepedido.editar()
-            flash('! Detalles Pedido editada con exito')
+def agregarDetallePedidos():
+    try:
+        if current_user.is_authenticated:
+            if current_user.is_authenticated:
+                try:
+                    detped=DetallePedidos()
+                    detped.idPedido=request.form['idPedido']
+                    detped.idProducto=request.form['idProducto']
+                    detped.precio=request.form['precio']
+                    detped.cantidadPedida=request.form['cantidadPedida']
+                    detped.cantidadEnviada = request.form['cantidadEnviada']
+                    detped.cantidadAceptada = request.form['cantidadAceptada']
+                    detped.cantidadRechazada = request.form['cantidadRechazada']
+                    detped.subtotal = request.form['subtotal']
+                    detped.estatus='Pendiente'
+                    detped.comentario = request.form['comentario']
+                    detped.agregar()
+                    flash('¡ Detalle agregada con exito !')
+                except:
+                    flash('¡ Error al agregar el detalle !')
+                return redirect(url_for('consultarDetallePedidos'))
+            else:
+                abort(404)
+        else:
             return redirect(url_for('mostrar_login'))
-        except:
-            flash('! Error al editar Detalles Pedido ')
-'''
+    except:
+        abort(500)
 
-@app.route('/Pedidos/editarPedidos/<int:id>')
+@app.route('/Pedidos/verpedidos/detallepedidos/editar',methods=['POST'])
 @login_required
-def modificarPed(id):
-    ped=Pedido()
-    if current_user.is_authenticated and current_user.is_comprador() or current_user.is_vendedor():
-        return render_template("pedidos/editarPedido.html",ped=ped.consultaIndividuall(id))
-    else:
-        return redirect(url_for('mostrar_login'))
-
-@app.route('/Pedidos/editarPedidos',methods=['post'])
-@login_required
-def editarPedido():
-    if current_user.is_authenticated and current_user.is_vendedor() or current_user.is_admin():
+def editarDetallePedidos():
+    if current_user.is_authenticated:
         try:
-            ped=Pedido()
-            ped.idPedido=request.form['idPedido']
-            ped.idComprador=request.form['idComprador']
-            ped.idVendedor=request.form['idVendedor']
-            ped.idTarjeta=request.form['idTarjeta']
-            ped.fechaRegistro = request.form['fechaRegistro']
-            ped.fechaAtencion = request.form['fechaAtencion']
-            ped.fechaRecepcion = request.form['fechaRecepcion']
-            ped.fechaCierre = request.form['fechaCierre']
-            ped.total = request.form['total']
-            ped.estatus = request.form['estatus']
-            ped.editar()
-            flash('¡ Pedido editado con exito !')
+            detped = DetallePedidos()
+            detped.idPedido = request.form['idPedido']
+            detped.idProducto = request.form['idProducto']
+            detped.precio = request.form['precio']
+            detped.cantidadPedida = request.form['cantidadPedida']
+            detped.cantidadEnviada = request.form['cantidadEnviada']
+            detped.cantidadAceptada = request.form['cantidadAceptada']
+            detped.cantidadRechazada = request.form['cantidadRechazada']
+            detped.subtotal = request.form['subtotal']
+            detped.estatus = 'Pendiente'
+            detped.comentario = request.form['comentario']
+            detped.agregar()
+            flash('¡ Detalle agregado con exito !')
         except:
-            flash('¡ Error al editar el pedido !')
+            flash('¡ Error al editar el detalle!')
 
-        return redirect(url_for('consulta'))
+        return redirect(url_for('consultarDetallePedidos'))
     else:
         return redirect(url_for('mostrar_login'))
 
-# manejo de detallesPedidos
-@app.route('/Pedidos/detallespedidos')
+@app.route('/Pedidos/verpedidos/detallepedidos/<int:id>')
 @login_required
-def consultarDP():
-    dp=DetallePedido()
-    return render_template("/detallesPedidos/consulta.html",detped=dp.consultaDP())
+def consultarDetallePedido(id):
+    if current_user.is_authenticated:
+        detped=DetallePedidos()
+        return render_template('/detallepedidos/editar.html',detped=detped.consultaIndividuall(id))
+    else:
+        return redirect(url_for('mostrar_login'))
 
+@app.route('/Pedidos/verpedidos/detallepedidos/eliminar/<int:id>')
+@login_required
+def eliminarDetallePedido(id):
+    if current_user.is_authenticated:
+        try:
+            detped=DetallePedidos()
+            #paq.eliminacionLogica(id)
+            detped.eliminar(id)
+            flash('DetallePedidos eliminada con exito')
+        except:
+            flash('Error al eliminar la DetallePedidos')
+        return redirect(url_for('consultarDetallePedidos'))
+    else:
+        return redirect(url_for('mostrar_login'))
 
-# fin del manejo de detallesPedidos
 if __name__=='__main__':
     db.init_app(app)#Inicializar la BD - pasar la configuración de la url de la BD
     app.run(debug=True)

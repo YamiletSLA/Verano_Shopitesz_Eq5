@@ -1,0 +1,43 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div>
+    <h1 class="caja text-center">Registro de Paqueterías</h1>
+    <form action="/Paqueterias/agregar" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Nombre de la paquetería" class="form-control">
+        </div>
+       <div class="form-group">
+            <label for="paginaWeb">Página Web:</label>
+            <input type="text" name="paginaWeb" required maxlength="60" placeholder="Página Web" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="precioGr">Precio:</label>
+            <input type="text" name="precio" required maxlength="60" placeholder="Precio" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="Telefono">Teléfono:</label>
+            <input type="text" name="telefono" required maxlength="60"  placeholder="Teléfono" class="form-control">
+        </div>
+            <button type="submit" class="btn btn-default2">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Agregar
+            </button>
+            <a href="/Paqueterías" class="btn btn-default">
+                <span class="glyphicon glyphicon-circle-arrow-left"></span>
+                Cancelar
+            </a>
+    </form>
+    <div id="notificaciones" style="background-color:#FF0000">
+</div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+{{super()}}
+    <script src="{{url_for('static',filename='js/usuarios.js')}}"></script>
+{% endblock %}

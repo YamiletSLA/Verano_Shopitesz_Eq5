@@ -1,0 +1,91 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+<div>
+    <h1 class="bg-primary bg-lg text-center">Editar Producto</h1>
+    <form action="/Productos/editar" method="post" enctype="multipart/form-data">
+        <div>
+            <input type="hidden" name="id" value="{{current_user.idUsuario}}" >
+        </div>
+        <!--<div class="form-group">
+            <label>CATEGORÍA:</label>
+            <select name="categ" class="form-control">
+                {% for categorias in categorias %}
+                    <option value="{{categorias.idCategoria}}">{{categorias.nombre}}</option>
+                {% endfor %}
+            </select>
+        </div>  -->
+        <div class="form-group">
+            <label for="idCategoria">CATEGORIA:</label>
+            <input type="number" name="idCategoria" required maxlength="60" placeholder="ID de la categoría del producto" class="form-control" value="{{prod.idCategoria}}">
+        </div>
+        <div class="form-group">
+            <label for="nombre">NOMBRE:</label>
+            <input type="text" name="nombre" required maxlength="60" placeholder="Nombre del producto" class="form-control" value="{{prod.nombre}}">
+        </div>
+        <div class="form-group">
+            <label for="descripcion">DESCRIPCIÓN:</label>
+            <input type="text" name="descripcion" required maxlength="60" placeholder="descripción" class="form-control" value="{{prod.descripcion}}">
+        </div>
+        <div class="form-group">
+            <label for="precioVenta">PRECIO:</label>
+            <input type="number" name="precioVenta" required maxlength="60" placeholder="Precio" class="form-control" value="{{prod.precioVenta}}">
+        </div>
+        <div class="form-group">
+            <label for="existencia">EXISTENCIA:</label>
+            <input type="number" name="existencia" required maxlength="60" placeholder="existencia" class="form-control" value="{{prod.existencia}}">
+        </div>
+        <div class="form-group">
+            <label>Imagen:</label>
+            <input type="file" name="imagen" placeholder="Imagen del producto" class="form-control">
+
+        </div>
+        <div class="form-group">
+            <label for="estatus">ESTATUS:</label>
+            <input type="text" name="estatus" required maxlength="60" placeholder="estatus" class="form-control" value="{{prod.estatus}}">
+        </div>
+
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+                Guardar
+            </button>
+            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#borrar">
+                <span class="glyphicon glyphicon-trash"></span>
+                Eliminar
+            </a>
+            <a href="/Productos" class="btn btn-info">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Cancelar
+            </a>
+    </form>
+  </div>
+</div>
+</div>
+
+ <!-- Modal para ver el cuadro de dialogo de eliminar-->
+<div id="borrar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminación de Productos</h4>
+      </div>
+      <div class="modal-body">
+        <p>¿ Estas seguro de eliminar el producto:<b>{{prod.nombre}} ?</b> </p>
+      </div>
+      <div class="modal-footer">
+          <a class="btn btn-primary" href="/Productos/eliminar/{{prod.idProducto}}">Aceptar</a>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+{% endblock %}

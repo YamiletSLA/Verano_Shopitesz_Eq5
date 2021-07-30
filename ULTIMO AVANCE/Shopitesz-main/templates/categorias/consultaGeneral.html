@@ -1,0 +1,46 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+<div>
+    <h1 class="caja text-center">Listado de Categorias</h1>
+
+    <table class="table table-striped">
+        <th>ID</th>
+        <th>NOMBRE</th>
+        {% if current_user.is_authenticated and current_user.is_admin() %}
+         <th>ESTATUS</th>
+        {% endif %}
+        <th>IMAGEN</th>
+        {% if current_user.is_authenticated and current_user.is_admin() %}
+        <th>EDITAR</th>
+        {% endif %}
+        {% for cat in categorias %}
+            <tr>
+                <td>{{cat.idCategoria}}</td>
+                <td>{{cat.nombre}}</td>
+                {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <td>{{cat.estatus}}</td>
+                {% endif %}
+                <td><img src="/Categorias/consultarImagen/{{cat.idCategoria}}" width="100px" height="80px"></td>
+                {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <td>
+                        <a href="/Categorias/{{cat.idCategoria}}">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+    {% if current_user.is_authenticated and current_user.is_admin() %}
+    <a href="/Categorias/nueva" class="btn btn-success">
+         <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar Categoria
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

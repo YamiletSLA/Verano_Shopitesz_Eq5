@@ -1,0 +1,47 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+    {% include 'comunes/menu.html' %}
+{% endblock %}
+{% block contenido %}
+{{super()}}
+<div>
+    <h1 class="caja text-center">Paqueterías</h1>
+    <table class="table table-condensed">
+        <th>ID</th>
+        <th>NOMBRE</th>
+        <th>PÁGINA WEB</th>
+        <th>PRECIO</th>
+        <th>TELÉFONO</th>
+        {% if current_user.is_authenticated and current_user.is_admin() %}
+        <th>ESTATUS</th>
+        <th>EDITAR</th>
+        {% endif %}
+        {% for paq in paqueterias %}
+            <tr>
+                <td>{{paq.idPaqueteria}}</td>
+                <td>{{paq.nombre}}</td>
+                <td>{{paq.paginaWeb}}</td>
+                <td>{{paq.precioGr}}</td>
+                <td>{{paq.Telefono}}</td>
+                {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <td>{{paq.estatus}}</td>
+                {% endif %}
+                <td>
+                    {% if current_user.is_authenticated and current_user.is_admin() %}
+                    <a href="/Paqueterias/{{paq.idPaqueteria}}">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if current_user.is_authenticated and current_user.is_admin() %}
+    <a href="/Paqueterias/nueva" class="btn btn-success">
+         <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar Paquetería
+    </a>
+    {% endif %}
+</div>
+{% endblock %}

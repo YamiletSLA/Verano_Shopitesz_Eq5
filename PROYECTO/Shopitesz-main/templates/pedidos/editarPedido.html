@@ -65,16 +65,33 @@
                 <span class="glyphicon glyphicon-trash"></span>
                 Eliminar
             </a>
-            <a href="/Pedidos/verpedidos/{{current_user.idUsuario}}" class="btn btn-info">
+            <a href="/Pedidos" class="btn btn-info">
                 <span class="glyphicon glyphicon-arrow-left"></span>
                 Cancelar
             </a>
     </form>
+</div>
+<!-- Modal para ver el cuadro de dialogo de eliminar-->
+<div id="borrar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Eliminación </h4>
+      </div>
+      <div class="modal-body">
+        <p>¿ Estas seguro de eliminar :<b>{{ped.idPedido}} ?</b> </p>
+      </div>
+      <div class="modal-footer">
+          <a class="btn btn-primary" href="/Pedidos/eliminar/{{ped.idPedido}}">Aceptar</a>
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
 
-
-
-
+  </div>
+</div>
 </div>
 
 {% endblock %}

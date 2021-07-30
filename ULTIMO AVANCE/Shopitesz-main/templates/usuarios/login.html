@@ -1,0 +1,39 @@
+{% extends 'comunes/base.html' %}
+{% block navbar %}
+    {{super()}}
+
+{% endblock %}
+{% block contenido %}
+    {{super()}}
+    <div class="text-center" style="color: #000000; font-size: 40pt">
+       <H1>BIENVENIDO A SHOPITESZ</H1>
+    </div>
+    <div id="h1" class="caja text-center">
+        <span style="color: #FFFFFF; font-size: 20pt; FONT-FAMILY: Helvetica;">Ingresa tus datos para iniciar sesión</span>
+    </div>
+    <br>
+    <img src="{{url_for('static',filename='img/login.png')}}" class="img-circle">
+    <!--<img src="{{url_for('static',filename='img/Zorro.png')}}" alt="Zorro" width="300" height="300" style="float:right"> -->
+    <br>
+    <br>
+    <form action="/Usuarios/validarSesion" method="post" class="form-horizontal">
+        <div class="row">
+            <div class="input-group" >
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="email" name="email" class="form-control" placeholder="Correo" required>
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+            </div>
+            <br>
+            <input class="btn btn-default2" type="submit" value="Iniciar sesión">
+            <a class="btn btn-default2" href="/Usuarios/nuevo">Registrate</a>
+            <a class="btn btn-default" href="/" style="float:right">
+                <span class="glyphicon glyphicon-circle-arrow-left"></span>
+                Regresar
+            </a>
+        </div>
+    </form>
+{% endblock %}
