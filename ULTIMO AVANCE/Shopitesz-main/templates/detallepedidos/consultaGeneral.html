@@ -19,6 +19,7 @@
         <th>SUBTOTAL</th>
         <th>ESTATUS</th>
         <th>COMENTARIO</th>
+        <th>EDITAR</th>
 
         {% for detped in detallepedidos %}
             <tr>
@@ -49,6 +50,10 @@
          <span class="glyphicon glyphicon-plus-sign"></span>
         Agregar Paquetería
     </a>
+    <a href="/Pedidos/verpedidos/detallespedidos" class="btn btn-info">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+                Cancelar
+            </a>
     {% endif %}
 </div>
 {% endblock %}

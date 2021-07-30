@@ -331,7 +331,7 @@
       <window_info active="true" content_ui="combo" id="Project" order="2" sideWeight="0.4993804" visible="true" weight="0.18844984" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.11292962" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4986577" visible="true" weight="0.27168575" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4986577" weight="0.27168575" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
