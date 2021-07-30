@@ -5,7 +5,7 @@
 {% endblock %}
 {% block contenido %}
 <div>
-    <h1 class="bg-primary bg-lg text-center">Edición de Pedidos</h1>
+    <h1 class="bg-primary bg-lg text-center">Consulta de Pedidos</h1>
     <form action="/Pedidos/editar" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="idPedido">ID:</label>
@@ -45,7 +45,15 @@
         </div>
         <div class="form-group">
             <label for="estatus">ESTATUS:</label>
-            <input type="text" name="estatus" placeholder="Pendiente/Activo/Cancelado" class="form-control" value="{{ped.estatus}}" >
+            <select name="estatus">
+            {% if ped.estatus=='Activo' %}
+                <option selected>Activo</option>
+                <option>Pendiente</option>
+            {% else %}
+                <option>Activo</option>
+                <option selected>Pendiente</option>
+            {% endif %}
+            </select>
         </div>
             <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-floppy-disk"></span>

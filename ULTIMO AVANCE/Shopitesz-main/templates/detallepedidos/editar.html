@@ -41,11 +41,19 @@
         </div>
         <div class="form-group">
             <label for="subtotal">SUBTOTAL:</label>
-            <input type="number" name="subtotal"  class="form-control" value="{{detped.subtotal}}">
+            <input type="number" name="subtotal" class="form-control" value="{{detped.subtotal}}">
         </div>
         <div class="form-group">
             <label for="estatus">ESTATUS:</label>
-            <input type="text" name="estatus" class="form-control" placeholder="Estatus" value="{{detped.estatus}}">
+            <select name="estatus">
+            {% if detped.estatus=='Activo' %}
+                <option selected>Activo</option>
+                <option>Pendiente</option>
+            {% else %}
+                <option>Activo</option>
+                <option selected>Pendiente</option>
+            {% endif %}
+            </select>
         </div>
         <div class="form-group">
             <label for="comentario">COMENTARIO:</label>
@@ -67,8 +75,6 @@
 
     </form>
   </div>
-</div>
-</div>
 
  <!-- Modal para ver el cuadro de dialogo de eliminar-->
 <div id="borrar" class="modal fade" role="dialog">
@@ -90,7 +96,6 @@
     </div>
 
   </div>
-</div>
 </div>
 
 {% endblock %}

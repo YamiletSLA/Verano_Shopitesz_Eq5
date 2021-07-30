@@ -14,7 +14,9 @@
             <th>PRECIO</th>
             <th>STOCK</th>
             <th>IMAGEN</th>
+            {% if current_user.is_authenticated and current_user.is_admin() %}
             <th>EDITAR</th>
+            {% endif %}
 
         </thead>
         {% for prod in productos %}

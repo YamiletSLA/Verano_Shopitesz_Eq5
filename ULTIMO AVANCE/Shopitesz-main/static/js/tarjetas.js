@@ -21,7 +21,7 @@ function validartarjeta(tar){
 
 
 function validarsaldo(tar){
-    if(tar<0){
+    if(tar<1){
         return 'La tarjeta debe tener un saldo mayor a 0';
     }
     else{

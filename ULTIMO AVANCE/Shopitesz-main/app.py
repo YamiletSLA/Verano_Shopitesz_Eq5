@@ -9,7 +9,7 @@ import json
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:holamundo@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 #Implementación de la gestion de usuarios con flask-login
@@ -518,6 +518,7 @@ def editarTarjeta():
             tar.idTarjeta=request.form['idT']
             tar.noTarjeta=request.form['tarjeta']
             tar.Banco=request.form['bancoE']
+            tar.saldo = request.form['saldo']
             tar.editar()
             flash('¡ Tarjeta editada con exito !')
         except:
@@ -554,8 +555,11 @@ def eliminarTarjeta(id):
 @app.route('/Paqueterias')
 @login_required
 def consultarPaqueterias():
-   paq=Paqueterias()
-   return render_template('/paqueterias/consultaP.html',paqueterias = paq.consultaPaqueterias())
+    if current_user.is_authenticated and current_user.is_admin():
+        paq = Paqueterias()
+        return render_template('/paqueterias/consultaP.html', paqueterias=paq.consultaPaqueterias())
+    else:
+        return render_template('/usuarios/login.html')
 
 
 @app.route('/Paqueterias/nueva')
@@ -750,12 +754,22 @@ def agregarDetallePedidos():
     except:
         abort(500)
 
+@app.route('/Pedidos/verpedidos/detallespedidos/<int:id>')
+@login_required
+def modDetallePedido(id):
+    if current_user.is_authenticated:
+        detped=DetallePedidos()
+        return render_template('/detallepedidos/editar.html',detped=detped.consultaIndividuall(id))
+    else:
+        return redirect(url_for('mostrar_login'))
+
 @app.route('/Pedidos/verpedidos/detallespedidos/editar',methods=['POST'])
 @login_required
 def editarDetallePedidos():
     if current_user.is_authenticated:
         try:
             detped = DetallePedidos()
+            detped.idDetalle = request.form['idDetalle']
             detped.idPedido = request.form['idPedido']
             detped.idProducto = request.form['idProducto']
             detped.precio = request.form['precio']
@@ -766,21 +780,12 @@ def editarDetallePedidos():
             detped.subtotal = request.form['subtotal']
             detped.estatus = 'Pendiente'
             detped.comentario = request.form['comentario']
-            detped.agregar()
+            detped.editar()
             flash('¡ Detalle agregado con exito !')
         except:
             flash('¡ Error al editar el detalle!')
 
         return redirect(url_for('consultarDetallePedidos'))
-    else:
-        return redirect(url_for('mostrar_login'))
-
-@app.route('/Pedidos/verpedidos/detallespedidos/<int:id>')
-@login_required
-def consultarDetallePedido(id):
-    if current_user.is_authenticated:
-        detped=DetallePedidos()
-        return render_template('/detallepedidos/editar.html',detped=detped.consultaIndividuall(id))
     else:
         return redirect(url_for('mostrar_login'))
 

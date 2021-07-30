@@ -19,7 +19,9 @@
         <th>SUBTOTAL</th>
         <th>ESTATUS</th>
         <th>COMENTARIO</th>
+        {% if current_user.is_authenticated and current_user.is_vendedor() %}
         <th>EDITAR</th>
+        {% endif %}
 
         {% for detped in detallepedidos %}
             <tr>
@@ -35,9 +37,8 @@
                 <td>{{detped.estatus}}</td>
                 <td>{{detped.comentario}}</td>
                 <td>
-                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_authenticated and current_user.is_vendedor() %}
                     <a href="/Pedidos/verpedidos/detallespedidos/{{detped.idDetalle}}">
-
                         <span class="glyphicon glyphicon-edit"></span>
                     </a>
                     {% endif %}

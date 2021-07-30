@@ -9,7 +9,9 @@
           <li><a href="/Categorias">CATEGORIAS</a></li>
           <li><a href="/productos">PRODUCTOS</a></li>
           <li><a href="/productos/categorias">PRODUCTOS POR CATEGORIA</a></li>
+          {% if current_user.is_authenticated and current_user.is_admin() %}
           <li><a href="/Paqueterias">PAQUETERIAS</a></li>
+          {% endif %}
         </ul>
       </li>
       {% if current_user.is_authenticated %}
