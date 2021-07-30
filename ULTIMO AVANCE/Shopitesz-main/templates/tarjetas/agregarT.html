@@ -6,13 +6,13 @@
 {% block contenido %}
 <div>
     <h1 class="caja text-center">Agregar Tarjetas</h1>
-    <form action="/Tarjetas/agregar" method="post" enctype="multipart/form-data">
+    <form action="/Tarjetas/agregar" method="post" enctype="multipart/form-data" onsubmit="return validarTarjetas(this)">
         <div>
             <input type="hidden" name="id" value="{{current_user.idUsuario}}" >
         </div>
         <div class="form-group">
             <label>Número de tarjeta:</label>
-            <input type="number" name="tarjeta" required maxlength="60" placeholder="Número de la tarjeta" class="form-control">
+            <input type="number" name="tarjeta" id="numTarjeta" required maxlength="16" placeholder="Número de la tarjeta" class="form-control">
         </div>
         <div class="form-group">
             <label>Entidad bancaria:</label>
@@ -24,9 +24,17 @@
         </div>
         <div class="form-group">
             <label>Saldo:</label>
-            <input type="number" name="saldo" required maxlength="60" placeholder="Saldo de la cuenta" class="form-control">
+            <input type="number" name="saldo" id="saldo" required maxlength="60" placeholder="Saldo de la cuenta" class="form-control">
         </div>
             <a href="/Tarjetas" class="btn btn-default" style="float:right">Cancelar</a>
             <button type="submit" class="btn btn-default2" style="float:right">Agregar</button>
     </form>
 </div>
+<div id="notificaciones" style="background-color:#FF0000">
+
+</div>
+{% endblock %}
+{% block scripts %}
+{{super()}}
+    <script src="{{url_for('static',filename='js/tarjetas.js')}}"></script>
+{% endblock %}

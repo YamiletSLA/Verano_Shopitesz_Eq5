@@ -45,15 +45,10 @@
             </tr>
         {% endfor %}
     </table>
-    {% if current_user.is_authenticated %}
-    <a href="/Pedidos/verpedidos/detallespedidos/nuevo" class="btn btn-success">
-         <span class="glyphicon glyphicon-plus-sign"></span>
-        Agregar Paquetería
+
+    <a href="/Pedidos" class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"> Regresar</span>
     </a>
-    <a href="/Pedidos/verpedidos/detallespedidos" class="btn btn-info">
-                <span class="glyphicon glyphicon-arrow-left"></span>
-                Cancelar
-            </a>
-    {% endif %}
+
 </div>
 {% endblock %}

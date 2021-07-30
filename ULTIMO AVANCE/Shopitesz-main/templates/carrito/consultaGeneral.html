@@ -8,16 +8,17 @@
     <div class="table-responsive">
     <table class="table">
         <thead>
-          <!--  <th>Seleccionar</th> -->
+
             <th>PRODUCTO</th>
             <th>UNIDADES</th>
             <th>PRECIO</th>
             <th>TOTAL</th>
             <th>FECHA DE REGISTRO</th>
+            <th>EDITAR</th>
         </thead>
         {% for prod in cesta %}
             <tr>
-             <!--   <td><input type="checkbox" name="idProducto"></td> -->
+
                 <td>{{prod.producto.nombre}}</td>
                 <td>{{prod.cantidad}}</td>
                 <td>{{prod.producto.precioVenta}}</td>
@@ -25,16 +26,16 @@
                 <td>{{prod.fecha}}</td>
                 {% if current_user.is_authenticated and current_user.is_comprador() %}
                 <td>
-                  <a href="/carrito/eliminar/{{prod.producto.idProducto}}" class="btn btn-danger mb-3" style="float:right">
-                      <span class="glyphicon glyphicon-circle-arrow-left"></span>
-                         Eliminar
+                  <a href="/carrito/consultacarrito/{{prod.idCarrito}}">
+                      <span class="glyphicon glyphicon-edit"></span>
                     </a>
                 </td>
                 {% endif %}
             </tr>
         {% endfor %}
-
     </table>
-
     </div>
+{% if current_user.is_authenticated and current_user.is_admin() %}
+<label>Debes iniciar sesión con otra cuenta</label>
+{% endif %}
 {% endblock %}

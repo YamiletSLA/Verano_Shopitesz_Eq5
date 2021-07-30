@@ -298,6 +298,10 @@ class Carrito(db.Model):
         db.session.delete(carrito)
         db.session.commit()
 
+    def editar(self):
+        db.session.merge(self)
+        db.session.commit()
+
 class DetallePedidos(db.Model):
     __tablename__='detallepedidos'
     idDetalle=Column(Integer,primary_key=True)

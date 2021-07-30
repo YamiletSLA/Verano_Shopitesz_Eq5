@@ -6,7 +6,7 @@
 {% block contenido %}
 <div>
     <h1 class="caja text-center">Registro de Paqueterías</h1>
-    <form action="/Paqueterias/agregar" method="post" enctype="multipart/form-data">
+    <form action="/Paqueterias/agregar" method="post" enctype="multipart/form-data" onsubmit="return validar(this)>
         <div class="form-group">
             <label for="nombre">Nombre:</label>
             <input type="text" name="nombre" required maxlength="60" placeholder="Nombre de la paquetería" class="form-control">
@@ -21,7 +21,7 @@
         </div>
         <div class="form-group">
             <label for="Telefono">Teléfono:</label>
-            <input type="text" name="telefono" required maxlength="60"  placeholder="Teléfono" class="form-control">
+            <input type="text" name="telefono" id="tel"  required maxlength="60"  placeholder="Teléfono" class="form-control">
         </div>
             <button type="submit" class="btn btn-default2">
                 <span class="glyphicon glyphicon-floppy-disk"></span>
@@ -32,12 +32,13 @@
                 Cancelar
             </a>
     </form>
-    <div id="notificaciones" style="background-color:#FF0000">
-</div>
-</div>
 
+</div>
+<div id="notificaciones" style="background-color:#FF0000">
+
+</div>
 {% endblock %}
 {% block scripts %}
 {{super()}}
-    <script src="{{url_for('static',filename='js/usuarios.js')}}"></script>
+    <script src="{{url_for('static',filename='js/paqueterias.js')}}"></script>
 {% endblock %}

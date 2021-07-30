@@ -9,7 +9,7 @@ import json
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://user_shopitesz:Shopit3sz.123@localhost/shopitesz'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:holamundo@localhost/shopitesz'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.secret_key='Cl4v3'
 #Implementación de la gestion de usuarios con flask-login
@@ -661,16 +661,45 @@ def consultarCesta():
     else:
         return redirect(url_for('mostrar_login'))
 
-@app.route('/carrito/eliminar/<int:id>')
+@app.route('/carrito/consultacarrito/<int:id>')
 @login_required
-def eliminarProductoCarrito(id):
+def consultarDeCarrito(id):
+    carrito = Carrito()
+    if current_user.is_authenticated and current_user.is_comprador():
+        return render_template('carrito/editarCarrito.html', carrito=carrito.consultaIndividuall(id))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+@app.route('/carrito/editar', methods=['POST'])
+@login_required
+def editarCarrito():
+    if current_user.is_authenticated and current_user.is_comprador():
+        try:
+            car = Carrito()
+            car.idCarrito = request.form['idCarrito']
+            car.idUsuario = request.form['idUser']
+            car.idProducto = request.form['idProd']
+            car.fecha = request.form['fecha']
+            car.cantidad = request.form['cantidad']
+            car.estatus = 'Activo'
+            car.editar()
+            flash('¡ Carrito editado con exito !')
+        except:
+            flash('¡ Error al editar el carrito !')
+        return redirect(url_for('consultarCesta'))
+    else:
+        return redirect(url_for('mostrar_login'))
+
+@app.route('/Carrito/eliminar/<int:id>')
+@login_required
+def eliminarCarrito(id):
     if current_user.is_authenticated and current_user.is_comprador():
         try:
             carrito=Carrito()
             carrito.eliminarProductoDeCarrito(id)
-            flash('Producto eliminado con exito')
+            flash('Elemento del carrito eliminada con exito')
         except:
-            flash('Error al eliminar el producto')
+            flash('Error al eliminar el elemento del carrito')
         return redirect(url_for('consultarCesta'))
     else:
         return redirect(url_for('mostrar_login'))

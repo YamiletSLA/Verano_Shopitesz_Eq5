@@ -14,7 +14,7 @@
             <th>PRECIO</th>
             <th>TOTAL</th>
             <th>FECHA DE REGISTRO</th>
-            <th>ELIMINAR </th>
+            <th>EDITAR</th>
         </thead>
         {% for prod in cesta %}
             <tr>
@@ -26,9 +26,8 @@
                 <td>{{prod.fecha}}</td>
                 {% if current_user.is_authenticated and current_user.is_comprador() %}
                 <td>
-                  <a href="/carrito/eliminar/{{prod.producto.idProducto}}" class="btn btn-danger mb-3" style="float:right">
-                      <span class="glyphicon glyphicon-circle-arrow-left"></span>
-                         Eliminar
+                  <a href="/carrito/consultacarrito//{{prod.idCarrito}}">
+                      <span class="glyphicon glyphicon-edit"></span>
                     </a>
                 </td>
                 {% endif %}
